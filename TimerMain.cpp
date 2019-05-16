@@ -25,6 +25,10 @@ TimerMain::TimerMain(QWidget*parent)
 {
       ui = new Ui::TimerMain;
       ui->setupUi(this);
+
+      red_   .setColor(QPalette::Base, QColor(200,   0,   0));
+      yellow_.setColor(QPalette::Base, QColor(200, 200,   0));
+      green_ .setColor(QPalette::Base, QColor(  0, 200,   0));
 }
 
 TimerMain::~TimerMain()
@@ -47,6 +51,17 @@ void TimerMain::set_line_text(const class QString&txt)
 
 void TimerMain::set_time_value(int val, timer_mode_t mode)
 {
+      switch (mode) {
+	  case TIMER_CALLUP:
+	    ui->timer_text->setPalette(red_);
+	    break;
+	  case TIMER_END:
+	    ui->timer_text->setPalette(green_);
+	    break;
+	  case TIMER_STOP:
+	    ui->timer_text->setPalette(red_);
+	    break;
+      }
       QString val_text;
       val_text.setNum(val);
       ui->timer_text->setText(val_text);

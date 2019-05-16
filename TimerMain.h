@@ -45,6 +45,10 @@ class TimerMain : public QMainWindow
     private slots:
 
     private:
+      QPalette red_;
+      QPalette yellow_;
+      QPalette green_;
+
       Ui::TimerMain *ui;
 };
 

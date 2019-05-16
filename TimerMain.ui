@@ -122,6 +122,9 @@
        <property name="cursor">
         <cursorShape>ArrowCursor</cursorShape>
        </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
        <property name="text">
         <string/>
        </property>
