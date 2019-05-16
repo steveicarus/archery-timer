@@ -155,6 +155,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="go_button">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
            <horstretch>0</horstretch>
