@@ -29,6 +29,10 @@ TimerMain::TimerMain(QWidget*parent)
       red_   .setColor(QPalette::Base, QColor(200,   0,   0));
       yellow_.setColor(QPalette::Base, QColor(200, 200,   0));
       green_ .setColor(QPalette::Base, QColor(  0, 200,   0));
+
+      red_   .setColor(QPalette::Text, QColor(  0,   0,   0));
+      yellow_.setColor(QPalette::Text, QColor(  0,   0,   0));
+      green_ .setColor(QPalette::Text, QColor(  0,   0,   0));
 }
 
 TimerMain::~TimerMain()
