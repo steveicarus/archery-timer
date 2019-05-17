@@ -69,6 +69,7 @@ class TimerControlBox : public QMainWindow {
       QTimer timer_;
       int timer_callup_;
       int timer_end_;
+      int timer_end_warn_;
 
       bool timer_next_line_;
       QString timer_next_line_txt_;

@@ -161,6 +161,7 @@ void TimerControlBox::next_button(void)
 	// Load the state machine with the phase times.
       timer_callup_ = ui->callup_time_text->text().toInt();
       timer_end_ = ui->end_time_text->text().toInt() + 1;
+      timer_end_warn_ = ui->warn_time_text->text().toInt();
       timer_next_line_ = dual_line_flag? timer_end_ : 0;
 
 	// State the callup time in the timer display, and enable the
@@ -189,7 +190,10 @@ void TimerControlBox::timer_timeout(void)
       } else if (timer_end_ > 0) {
 	      // Counting down the end.
 	    timer_end_ -= 1;
-	    timer_window_->set_time_value(timer_end_, TimerMain::TIMER_END);
+	    if (timer_end_ > timer_end_warn_)
+		  timer_window_->set_time_value(timer_end_, TimerMain::TIMER_END);
+	    else
+		  timer_window_->set_time_value(timer_end_, TimerMain::TIMER_END_WARN);
 
 	      // If time's up...
 	    if (timer_end_ == 0) {
@@ -200,7 +204,6 @@ void TimerControlBox::timer_timeout(void)
 			timer_callup_ = ui->callup_time_text->text().toInt();
 			timer_end_ = ui->end_time_text->text().toInt() + 1;
 			timer_window_->set_line_text(timer_next_line_txt_);
-			  //timer_window_->set_time_value(timer_callup_, TimerMain::TIMER_CALLUP);
 			sound_callup_->play();
 		  } else {
 			sound_clear_->play();

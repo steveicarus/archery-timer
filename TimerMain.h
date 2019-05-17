@@ -39,7 +39,7 @@ class TimerMain : public QMainWindow
 	// Set the text for the active line display.
       void set_line_text(const class QString&txt);
       
-      enum timer_mode_t { TIMER_CALLUP, TIMER_END, TIMER_STOP };
+      enum timer_mode_t { TIMER_CALLUP, TIMER_END, TIMER_END_WARN, TIMER_STOP };
       void set_time_value(int val, timer_mode_t mode);
 
     private slots:

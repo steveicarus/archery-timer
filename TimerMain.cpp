@@ -62,6 +62,9 @@ void TimerMain::set_time_value(int val, timer_mode_t mode)
 	  case TIMER_END:
 	    ui->timer_text->setPalette(green_);
 	    break;
+	  case TIMER_END_WARN:
+	    ui->timer_text->setPalette(yellow_);
+	    break;
 	  case TIMER_STOP:
 	    ui->timer_text->setPalette(red_);
 	    break;
