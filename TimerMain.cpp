@@ -18,13 +18,18 @@
  */
 
 # include  "TimerMain.h"
+# include  "TimerControlBox.h"
 # include  "ui_TimerMain.h"
+# include  <QKeyEvent>
+# include  <cassert>
 
 TimerMain::TimerMain(QWidget*parent)
 : QMainWindow(parent)
 {
       ui = new Ui::TimerMain;
       ui->setupUi(this);
+
+      control_box_ = 0;
 
       red_   .setColor(QPalette::Base, QColor(200,   0,   0));
       yellow_.setColor(QPalette::Base, QColor(200, 200,   0));
@@ -38,6 +43,12 @@ TimerMain::TimerMain(QWidget*parent)
 TimerMain::~TimerMain()
 {
       delete ui;
+}
+
+void TimerMain::set_control_box(TimerControlBox*box)
+{
+      assert(! control_box_);
+      control_box_ = box;
 }
 
 void TimerMain::set_end_number(int val, bool practice_flag)
@@ -72,4 +83,20 @@ void TimerMain::set_time_value(int val, timer_mode_t mode)
       QString val_text;
       val_text.setNum(val);
       ui->timer_text->setText(val_text);
+}
+
+void TimerMain::keyPressEvent(QKeyEvent*event)
+{
+      QString txt = event->text();
+
+	// Grab the space bar keypress, and use that to hide/show the
+	// control box.
+      if (txt[0].toLatin1() == ' ') {
+	    if (control_box_->isVisible())
+		  control_box_->hide();
+	    else
+		  control_box_->show();
+	    return;
+      }
+      QMainWindow::keyPressEvent(event);
 }

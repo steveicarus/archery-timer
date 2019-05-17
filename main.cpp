@@ -29,6 +29,7 @@ int main(int argc, char*argv[])
     timer_main.show();
 
     TimerControlBox timer_box;
+    timer_main.set_control_box(&timer_box);
     timer_box.show();
 
       // Bind the timer window with the control box.

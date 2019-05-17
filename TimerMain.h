@@ -25,6 +25,8 @@ namespace Ui {
       class TimerMain;
 }
 
+class TimerControlBox;
+
 class TimerMain : public QMainWindow
 {
       Q_OBJECT
@@ -32,6 +34,8 @@ class TimerMain : public QMainWindow
     public:
       explicit TimerMain(QWidget*parent =0);
       ~TimerMain();
+
+      void set_control_box(TimerControlBox*box);
 
     public:
       void set_end_number(int val, bool practice_flag);
@@ -42,14 +46,20 @@ class TimerMain : public QMainWindow
       enum timer_mode_t { TIMER_CALLUP, TIMER_END, TIMER_END_WARN, TIMER_STOP };
       void set_time_value(int val, timer_mode_t mode);
 
+    protected:
+      void keyPressEvent(QKeyEvent*event);
+
     private slots:
 
     private:
+      Ui::TimerMain *ui;
+
+      TimerControlBox*control_box_;
+
       QPalette red_;
       QPalette yellow_;
       QPalette green_;
 
-      Ui::TimerMain *ui;
 };
 
 #endif
