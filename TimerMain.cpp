@@ -87,16 +87,36 @@ void TimerMain::set_time_value(int val, timer_mode_t mode)
 
 void TimerMain::keyPressEvent(QKeyEvent*event)
 {
-      QString txt = event->text();
 
 	// Grab the space bar keypress, and use that to hide/show the
 	// control box.
-      if (txt[0].toLatin1() == ' ') {
+      if (event->key() == Qt::Key_Space) {
 	    if (control_box_->isVisible())
 		  control_box_->hide();
 	    else
 		  control_box_->show();
 	    return;
       }
-      QMainWindow::keyPressEvent(event);
+      if (event->key() == Qt::Key_N) {
+	    control_box_->next_end_command();
+	    return;
+      }
+      if (event->key() == Qt::Key_P) {
+	    control_box_->pause_timer_command();
+	    return;
+      }
+      if (event->key() == Qt::Key_Enter) {
+	    control_box_->start_timer_command();
+	    return;
+      }
+      if (event->key() == Qt::Key_Return) {
+	    control_box_->start_timer_command();
+	    return;
+      }
+      if (event->key() == Qt::Key_Down) {
+	    control_box_->fast_forward_command();
+	    return;
+      }
+      printf("XXXX key() == 0x%04x\n", event->key());
+      event->ignore();
 }

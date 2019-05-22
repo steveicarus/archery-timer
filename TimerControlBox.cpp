@@ -38,6 +38,8 @@ TimerControlBox::TimerControlBox(QWidget*parent)
 
       timer_callup_ = 0;
       timer_end_ = 0;
+      timer_end_warn_ = 0;
+      timer_running_flag_ = false;
       timer_next_line_ = false;
 
 	// The timer...
@@ -47,8 +49,8 @@ TimerControlBox::TimerControlBox(QWidget*parent)
       
 	// The control box buttons...
       connect(ui->go_button,
-	      SIGNAL(toggled(bool)),
-	      SLOT(go_toggle(bool)));
+	      SIGNAL(clicked()),
+	      SLOT(go_button()));
       connect(ui->prev_button,
 	      SIGNAL(clicked()),
 	      SLOT(prev_button()));
@@ -80,60 +82,19 @@ void TimerControlBox::set_timer_window(TimerMain*timer)
       timer_window_ = timer;
 }
 
-void TimerControlBox::set_running_state_(void)
+/*
+ * Advance to the next end. Advance the end counter, set up the timer
+ * counters to the correct sizes, and set the line label to the line
+ * that starts the next end.
+ *
+ * If the tiner is still running for the current end, then return an
+ * error.
+ */
+int TimerControlBox::next_end_command(void)
 {
-      ui->prev_button->setEnabled(false);
-      ui->next_button->setEnabled(false);
-      ui->reset_ends_button->setEnabled(false);
-}
-
-void TimerControlBox::set_paused_state_(void)
-{
-      ui->prev_button->setEnabled(true);
-      ui->next_button->setEnabled(true);
-      ui->reset_ends_button->setEnabled(true);
-}
-
-void TimerControlBox::line_cd_check(int state)
-{
-      if (state) {
-	    ui->line_cd_text->setEnabled(true);
-      } else {
-	    ui->line_cd_text->setEnabled(false);
+      if (timer_running_flag_) {
+	    return -1;
       }
-}
-
-void TimerControlBox::go_toggle(bool state)
-{
-      if (state) {
-	    set_running_state_();
-	    ui->go_button->setText("PAUSE");
-	    timer_.start(1000);
-	    sound_callup_->play();
-      } else {
-	    timer_.stop();
-	    set_paused_state_();
-	    ui->go_button->setText("RUN");
-      }
-}
-
-void TimerControlBox::go_button_toggle_(bool state)
-{
-      if (state && !ui->go_button->isChecked()) {
-	    ui->go_button->click();
-      } else if (ui->go_button->isChecked() && !state) {
-	    ui->go_button->click();
-      }
-}
-
-void TimerControlBox::prev_button(void)
-{
-      fprintf(stdout, "XXXX NOT IMPLEMENTED\n");
-      fflush(stdout);
-}
-
-void TimerControlBox::next_button(void)
-{
 
 	// Count and display the end number.
       int end_counter = ui->end_count_box->value();
@@ -168,6 +129,92 @@ void TimerControlBox::next_button(void)
 	// GO button.
       timer_window_->set_time_value(timer_callup_, TimerMain::TIMER_CALLUP);
       ui->go_button->setEnabled(true);
+
+      return 0;
+}
+
+int TimerControlBox::start_timer_command(void)
+{
+	// If the timer is already running, then do nothing.
+      if (timer_running_flag_) return -1;
+      
+      set_running_state_();
+      ui->go_button->setText("PAUSE");
+      timer_.start(1000);
+      sound_callup_->play();
+      return 0;
+}
+
+int TimerControlBox::fast_forward_command(void)
+{
+	// If the timer is not running, then do nothing.
+      if (!timer_running_flag_) return -1;
+      
+      if (timer_callup_ >= 1) {
+	    timer_callup_ = 1;
+      } else if (timer_end_ >= 1) {
+	    timer_end_ = 1;
+      } else {
+	    return -1;
+      }
+      timer_timeout();
+      return 0;
+}
+
+int TimerControlBox::pause_timer_command(void)
+{
+	// If the timer is not running, then do nothing.
+      if (!timer_running_flag_) return -1;
+	// Stop the timer, and enable the "RUN" button.
+      timer_.stop();
+      set_paused_state_();
+      ui->go_button->setText("RUN");
+      return 0;
+}
+
+void TimerControlBox::set_running_state_(void)
+{
+      timer_running_flag_ = true;
+      ui->prev_button->setEnabled(false);
+      ui->next_button->setEnabled(false);
+      ui->reset_ends_button->setEnabled(false);
+}
+
+void TimerControlBox::set_paused_state_(void)
+{
+      ui->prev_button->setEnabled(true);
+      ui->next_button->setEnabled(true);
+      ui->reset_ends_button->setEnabled(true);
+      timer_running_flag_ = false;
+}
+
+void TimerControlBox::line_cd_check(int state)
+{
+      if (state) {
+	    ui->line_cd_text->setEnabled(true);
+      } else {
+	    ui->line_cd_text->setEnabled(false);
+      }
+}
+
+void TimerControlBox::go_button(void)
+{
+      if (timer_running_flag_) {
+	    pause_timer_command();
+      } else {
+	    start_timer_command();
+      }
+}
+
+void TimerControlBox::prev_button(void)
+{
+      fprintf(stdout, "XXXX NOT IMPLEMENTED\n");
+      fflush(stdout);
+}
+
+void TimerControlBox::next_button(void)
+{
+      next_end_command();
 }
 
 void TimerControlBox::reset_ends_button(void)
@@ -214,7 +261,7 @@ void TimerControlBox::timer_timeout(void)
 	      // All the steps ran out, so stop the timer by clicking
 	      // the go_button toggle switch.
 	    timer_window_->set_time_value(0, TimerMain::TIMER_STOP);
-	    go_button_toggle_(false);
+	    pause_timer_command();
 	    ui->go_button->setEnabled(false);
       }
 }

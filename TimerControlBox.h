@@ -38,9 +38,28 @@ class TimerControlBox : public QMainWindow {
       ~TimerControlBox();
 
       void set_timer_window(TimerMain*timer);
-					  
+
+    public: // These methods are commands that remote controllers used
+	    // to control the timer.
+
+	// This method sets up for the next end. If the timer is still
+	// running, it returns -1. Otherwise, it sets up the counters
+	// for the next end and returns >= 0.
+      int next_end_command(void);
+
+	// Start the timer.
+      int start_timer_command(void);
+
+	// While the timer is running, advance immediately to the next
+	// phase, which may be the end of the end. Do NOT go to the
+	// next end.
+      int fast_forward_command(void);
+
+	// Stop the timer, without advancing to the next end.
+      int pause_timer_command(void);
+
     private slots:
-      void go_toggle(bool state);
+      void go_button(void);
       void prev_button(void);
       void next_button(void);
       void reset_ends_button(void);
@@ -49,7 +68,6 @@ class TimerControlBox : public QMainWindow {
       void timer_timeout(void);
 
     private:
-      void go_button_toggle_(bool state);
       void set_running_state_(void);
       void set_paused_state_(void);
 
@@ -70,6 +88,7 @@ class TimerControlBox : public QMainWindow {
       int timer_callup_;
       int timer_end_;
       int timer_end_warn_;
+      bool timer_running_flag_;
 
       bool timer_next_line_;
       QString timer_next_line_txt_;
