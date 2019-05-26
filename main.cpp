@@ -20,6 +20,7 @@
 # include  <QApplication>
 # include  "TimerMain.h"
 # include  "TimerControlBox.h"
+# include  "TimerNetworkService.h"
 
 int main(int argc, char*argv[])
 {
@@ -34,6 +35,11 @@ int main(int argc, char*argv[])
 
       // Bind the timer window with the control box.
     timer_box.set_timer_window(&timer_main);
+
+      // Create a network service and bind it to the control box. By
+      // setting the timer_box as the parent, the allocated object
+      // becomes "owned", so won't leak.
+    new TimerNetworkService(&timer_box);
 
     return app.exec();
 }
