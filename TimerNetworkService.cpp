@@ -52,9 +52,12 @@ void TimerNetworkService::new_connection_signal(void)
 		  continue;
 	    }
 
+	    fprintf(stdout, "XXXX TimerNetworkService: Accepted a connection.\n");
+	    fflush(stdout);
 	    pauseAccepting();
 	    connection_ = sock;
-	    connect(connection_, SIGNAL(readyRead()), SLOT(ready_read()));
+	    connect(connection_, SIGNAL(readyRead()),   SLOT(ready_read()));
+	    connect(connection_, SIGNAL(disconnected()),SLOT(port_disconnected()));
       }
 }
 
@@ -78,6 +81,16 @@ void TimerNetworkService::ready_read(void)
 		  line_buffer_ = "";
 	    }
       }
+}
+
+void TimerNetworkService::port_disconnected(void)
+{
+      fprintf(stdout, "XXXX TimerNetworkService: dropped connection\n");
+      fflush(stdout);
+      QTcpSocket*port = connection_;
+      connection_ = 0;
+      resumeAccepting();
+      port->deleteLater();
 }
 
 static inline QString ok_with_error_code(int rc)

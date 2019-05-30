@@ -65,6 +65,7 @@ class TimerNetworkService : private QTcpServer {
       void new_connection_signal(void);
 
       void ready_read(void);
+      void port_disconnected(void);
 
     private:
       void process_command_(const QString&cmd);
