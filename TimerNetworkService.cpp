@@ -95,7 +95,7 @@ void TimerNetworkService::port_disconnected(void)
 
 static inline QString ok_with_error_code(int rc)
 {
-      QString res = "OK ";
+      QString res = "OK:";
       QString num;
       num.setNum(rc, 10);
       res.append(num);
@@ -109,7 +109,7 @@ void TimerNetworkService::process_command_(const QString&cmd)
       if (args.size() == 0) return;
 
       if (args[0] == "version") {
-	    connection_->write("OK version text\n");
+	    connection_->write("OK:version text\n");
 	    return;
       }
 

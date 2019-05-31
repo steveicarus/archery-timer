@@ -130,7 +130,7 @@ int TimerControlBox::next_end_command(void)
       timer_window_->set_time_value(timer_callup_, TimerMain::TIMER_CALLUP);
       ui->go_button->setEnabled(true);
 
-      return 0;
+      return end_counter;
 }
 
 int TimerControlBox::start_timer_command(void)
