@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -24,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException ex) {
             Log.d(DTAG, "Error closing old port: " + ex.getMessage());
         }
+        Log.d(DTAG, "set_port port=" + port.toString());
         timer_port = port;
-
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,22 +37,43 @@ public class MainActivity extends AppCompatActivity {
     /** Called when the user taps the Connect button */
     public void connect_button_click(View view) {
         Intent intent = new Intent(this, ServerConnection.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int req, int res, Intent intent) {
+        /* This is called when the connection completes. */
+        if (timer_port.isConnected())
+            (new CommandResponse(this, timer_port)).execute("version");
     }
 
     public void next_end_button_click(View view) {
+        if (timer_port.isConnected())
+            (new CommandResponse(this, timer_port)).execute("next-end");
     }
 
     public void start_timer_button_click(View view) {
-
+        if (timer_port.isConnected())
+            (new CommandResponse(this, timer_port)).execute("start-timer");
     }
 
     public void pause_button_click(View view) {
-
+        if (timer_port.isConnected())
+            (new CommandResponse(this, timer_port)).execute("pause-timer");
     }
 
     public void fast_forward_button_click(View view) {
-
+        if (timer_port.isConnected())
+            (new CommandResponse(this, timer_port)).execute("fast-forward");
     }
 
+    public void set_version_string(String text) {
+        TextView view = findViewById(R.id.server_version_string);
+        view.setText(text);
+    }
+
+    public void set_next_end_display(String text) {
+        TextView view = findViewById(R.id.end_number);
+        view.setText(text);
+    }
 }

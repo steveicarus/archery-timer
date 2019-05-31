@@ -38,7 +38,11 @@ public class ServerConnection extends AppCompatActivity {
      */
     public void receive_opened_socket(Socket port) {
         Log.d(DTAG, "Received socket:" + port.toString());
-        MainActivity.set_port(port);
+        if (port.isConnected()) {
+            MainActivity.set_port(port);
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 
     /* Disconnect by replacing the port with an unconnected socket. */
@@ -46,4 +50,5 @@ public class ServerConnection extends AppCompatActivity {
         Log.d(DTAG, "Disconnect");
         MainActivity.set_port(new Socket());
     }
+
 }
