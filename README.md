@@ -38,6 +38,18 @@ The program counts ends, and displays the end number, and also displays the line
 is currently called up or shooting. Note that the A-B and C-D lines alternate which is
 shooting first. This follows the process used by World Archery.
 
+## Keyboard Shortcuts
+
+The main timer window responds to these keyboard commands:
+
+* Esc - Toggle fullscreen mode
+
+* Space - Toggle the control box visibility
+
+* n - Next End button
+* Down (down arrow) - Skip button
+* Enter or Return - Start timer
+
 ## Build
 
 The program was originally implemented on Linux using QT5, but should build on

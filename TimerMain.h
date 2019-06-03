@@ -56,6 +56,7 @@ class TimerMain : public QMainWindow
 
       TimerControlBox*control_box_;
 
+      bool fullscreen_flag_;
       QPalette red_;
       QPalette yellow_;
       QPalette green_;

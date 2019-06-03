@@ -31,6 +31,8 @@ TimerMain::TimerMain(QWidget*parent)
 
       control_box_ = 0;
 
+      fullscreen_flag_ = false;
+
       red_   .setColor(QPalette::Base, QColor(200,   0,   0));
       yellow_.setColor(QPalette::Base, QColor(200, 200,   0));
       green_ .setColor(QPalette::Base, QColor(  0, 200,   0));
@@ -97,6 +99,18 @@ void TimerMain::keyPressEvent(QKeyEvent*event)
 		  control_box_->show();
 	    return;
       }
+	// Toggle Fullscreen mode with the Escape key
+      if (event->key() == Qt::Key_Escape) {
+	    if (fullscreen_flag_) {
+		  showNormal();
+		  fullscreen_flag_ = false;
+	    } else {
+		  showFullScreen();
+		  fullscreen_flag_ = true;
+	    }
+	    return;
+      }
+	// Keyboard commands for running the timer
       if (event->key() == Qt::Key_N) {
 	    control_box_->next_end_command();
 	    return;
@@ -117,6 +131,7 @@ void TimerMain::keyPressEvent(QKeyEvent*event)
 	    control_box_->fast_forward_command();
 	    return;
       }
+
       printf("XXXX key() == 0x%04x\n", event->key());
       event->ignore();
 }
