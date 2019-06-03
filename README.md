@@ -4,13 +4,13 @@ Copyright (c) 2019 Stephen Williams <steve@icarus.com>
 
 
 This program implements timing functions for archery tournaments. It supports
-the call to the line, times ends, and supports multiple lines. The idea is to
-have this program display the main window on a screen that the archers of a
-tournament can see (and hear) so that it handles line timing.
+the call to the line, times ends, and supports multiple lines. The program displays
+the main window on a screen that the archers of a tournament can see (and hear)
+so that it handles line timing.
 
 The aspects of
 a shooting cycle are the callup (archers to the line), the "end" (this shooting
-time), and "clear" (shooting is done. When there is only one line shooting, the
+time), and "clear" (shooting is done). When there is only one line shooting, the
 order of events is:
 
 * Callup (2 whistles) - The archers are called to the line.
@@ -37,6 +37,11 @@ end.
 The program counts ends, and displays the end number, and also displays the line that
 is currently called up or shooting. Note that the A-B and C-D lines alternate which is
 shooting first. This follows the process used by World Archery.
+
+The timer can be controlled on screen with a control panel window, or remotely by
+a supplied Android app that sends network commands. The idea is to run the program
+on a small computer (i.e. Raspberry pi) displaying on a monitor downrange, with a
+range manager controlling it behind the line.
 
 ## Keyboard Shortcuts
 
