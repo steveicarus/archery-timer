@@ -35,7 +35,9 @@ TimerNetworkService::TimerNetworkService(TimerControlBox*parent)
 
       listen();
       fprintf(stdout, "XXXX TimerNetworkService: server port = %u\n", serverPort());
-      fflush(stdout);
+      QString port_text;
+      port_text.setNum(serverPort());
+      controls_->network_service_port(port_text);
 }
 
 TimerNetworkService::~TimerNetworkService()
@@ -56,6 +58,7 @@ void TimerNetworkService::new_connection_signal(void)
 	    fflush(stdout);
 	    pauseAccepting();
 	    connection_ = sock;
+	    controls_->network_service_port("connected");
 	    connect(connection_, SIGNAL(readyRead()),   SLOT(ready_read()));
 	    connect(connection_, SIGNAL(disconnected()),SLOT(port_disconnected()));
       }
@@ -91,6 +94,10 @@ void TimerNetworkService::port_disconnected(void)
       connection_ = 0;
       resumeAccepting();
       port->deleteLater();
+	// Show the port in the control panel.
+      QString port_text;
+      port_text.setNum(serverPort());
+      controls_->network_service_port(port_text);
 }
 
 static inline QString ok_with_error_code(int rc)

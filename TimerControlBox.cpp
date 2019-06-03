@@ -100,12 +100,13 @@ int TimerControlBox::next_end_command(void)
       int end_counter = ui->end_count_box->value();
       ui->end_count_box->setValue(end_counter+1);
       bool practice_flag = ui->practice_check->checkState()? true : false;
+      bool toggle_order_flag = ui->toggle_order_check->checkState()? true : false;
       timer_window_->set_end_number(end_counter, practice_flag);
 
 	// This is true if there are multiple lines.
       bool dual_line_flag = ui->line_cd_check->checkState()? true : false;
 
-      if (dual_line_flag && (end_counter%2 == 0)) {
+      if (dual_line_flag && toggle_order_flag && (end_counter%2 == 0)) {
 	    
 	      // If there are 2 lines, and this is an even end, then
 	      // the cd line is first up, followed by the ab line.
@@ -170,6 +171,11 @@ int TimerControlBox::pause_timer_command(void)
       set_paused_state_();
       ui->go_button->setText("RUN");
       return 0;
+}
+
+void TimerControlBox::network_service_port(const QString&port_text)
+{
+      ui->remote_port_text->setText(port_text);
 }
 
 void TimerControlBox::set_running_state_(void)

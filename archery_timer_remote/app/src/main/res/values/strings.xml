@@ -10,4 +10,5 @@
     <string name="disconnect_button">Disconnect</string>
     <string name="ip_number_label">IP Number</string>
     <string name="ip_port_label">Port Number</string>
+    <string name="ip_number_default">192.168.4.1</string>
 </resources>

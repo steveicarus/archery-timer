@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>280</width>
-    <height>375</height>
+    <height>414</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -98,6 +98,9 @@
           <property name="text">
            <string>Line label:</string>
           </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
         <item row="4" column="1">
@@ -149,6 +152,19 @@
          <widget class="QLabel" name="label_7">
           <property name="text">
            <string>Warn time:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QCheckBox" name="toggle_order_check">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When checked, the line order toggles for each end per World Archery rules. When un-checked, the line order is the same for every end, per NFAA rules.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Toggle ends</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -250,6 +266,24 @@
        </layout>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Remote port:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="remote_port_text">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="QPushButton" name="reset_ends_button">
         <property name="text">
          <string>Reset Ends</string>
@@ -266,7 +300,7 @@
      <x>0</x>
      <y>0</y>
      <width>280</width>
-     <height>30</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
