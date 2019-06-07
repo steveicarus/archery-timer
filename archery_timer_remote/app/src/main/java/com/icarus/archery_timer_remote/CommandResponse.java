@@ -21,10 +21,10 @@ public class CommandResponse extends AsyncTask<String, Integer, String> {
     private Socket port_;
     private String command_;
 
-    CommandResponse(MainActivity src, Socket port) {
+    CommandResponse(MainActivity src) {
         Log.d(DTAG, "Start CommandResponse.");
         src_ = src;
-        port_ = port;
+        port_ = ((ArcheryTimer)src.getApplication()).get_port();
     }
 
     @Override

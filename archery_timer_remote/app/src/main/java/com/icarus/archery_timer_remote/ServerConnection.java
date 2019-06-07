@@ -39,7 +39,7 @@ public class ServerConnection extends AppCompatActivity {
     public void receive_opened_socket(Socket port) {
         Log.d(DTAG, "Received socket:" + port.toString());
         if (port.isConnected()) {
-            MainActivity.set_port(port);
+            ((ArcheryTimer)getApplication()).set_port(port);
             setResult(RESULT_OK);
             finish();
         }
@@ -48,7 +48,7 @@ public class ServerConnection extends AppCompatActivity {
     /* Disconnect by replacing the port with an unconnected socket. */
     public void disconnect_button_click(View view) {
         Log.d(DTAG, "Disconnect");
-        MainActivity.set_port(new Socket());
+        ((ArcheryTimer)getApplication()).set_port(new Socket());
     }
 
 }
