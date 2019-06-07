@@ -87,6 +87,18 @@ void TimerMain::set_time_value(int val, timer_mode_t mode)
       ui->timer_text->setText(val_text);
 }
 
+bool TimerMain::toggle_fullscreen(void)
+{
+      if (fullscreen_flag_) {
+	    showNormal();
+	    fullscreen_flag_ = false;
+      } else {
+	    showFullScreen();
+	    fullscreen_flag_ = true;
+      }
+      return fullscreen_flag_;
+}
+
 void TimerMain::keyPressEvent(QKeyEvent*event)
 {
 
@@ -101,13 +113,7 @@ void TimerMain::keyPressEvent(QKeyEvent*event)
       }
 	// Toggle Fullscreen mode with the Escape key
       if (event->key() == Qt::Key_Escape) {
-	    if (fullscreen_flag_) {
-		  showNormal();
-		  fullscreen_flag_ = false;
-	    } else {
-		  showFullScreen();
-		  fullscreen_flag_ = true;
-	    }
+	    toggle_fullscreen();
 	    return;
       }
 	// Keyboard commands for running the timer

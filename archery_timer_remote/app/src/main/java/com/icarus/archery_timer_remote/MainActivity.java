@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String DTAG = "MainActivity";
 
+    /* Pointer to the main activity that other activities can use. */
+    public static MainActivity global_activity;
+
     /* This is the connection to the timer device. */
     private static Socket timer_port = new Socket();
 
@@ -28,16 +31,24 @@ public class MainActivity extends AppCompatActivity {
         Log.d(DTAG, "set_port port=" + port.toString());
         timer_port = port;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        global_activity = this;
     }
 
     /** Called when the user taps the Connect button */
     public void connect_button_click(View view) {
         Intent intent = new Intent(this, ServerConnection.class);
         startActivityForResult(intent, 1);
+    }
+
+    /** Called with the user taps the Settings button */
+    public void settings_button_click(View view) {
+        Intent intent = new Intent(this, GadgetSettings.class);
+        startActivity(intent);
     }
 
     @Override
@@ -65,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
     public void fast_forward_button_click(View view) {
         if (timer_port.isConnected())
             (new CommandResponse(this, timer_port)).execute("fast-forward");
+    }
+
+    public void toggle_fullscreen_command() {
+        (new CommandResponse(this, timer_port)).execute("toggle-fullscreen");
     }
 
     public void set_version_string(String text) {

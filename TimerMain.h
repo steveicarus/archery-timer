@@ -46,6 +46,10 @@ class TimerMain : public QMainWindow
       enum timer_mode_t { TIMER_CALLUP, TIMER_END, TIMER_END_WARN, TIMER_STOP };
       void set_time_value(int val, timer_mode_t mode);
 
+	// Toggle fullscreen mode. Return true if the result leaves
+	// the timer in fullscreen mode.
+      bool toggle_fullscreen(void);
+
     protected:
       void keyPressEvent(QKeyEvent*event);
 

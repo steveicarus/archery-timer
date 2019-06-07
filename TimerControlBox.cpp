@@ -173,6 +173,18 @@ int TimerControlBox::pause_timer_command(void)
       return 0;
 }
 
+/*
+ * The remote control sends the toggle-fullscreen command. In
+ * response, toggle fullscreen mode. If that causes the display to not
+ * be fullscreen, then also raise the control box.
+ */
+int TimerControlBox::toggle_fullscreen_command(void)
+{
+      bool flag = timer_window_->toggle_fullscreen();
+      if (!flag) this->show();
+      return flag? 1 : 0;
+}
+
 void TimerControlBox::network_service_port(const QString&port_text)
 {
       ui->remote_port_text->setText(port_text);

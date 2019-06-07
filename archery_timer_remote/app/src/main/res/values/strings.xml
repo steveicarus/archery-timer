@@ -11,4 +11,9 @@
     <string name="ip_number_label">IP Number</string>
     <string name="ip_port_label">Port Number</string>
     <string name="ip_number_default">192.168.4.1</string>
+    <string name="callup_time_label">Callup time:</string>
+    <string name="fullscreen_button">Toggle fullscreen</string>
+    <string name="end_time_label">End time:</string>
+    <string name="warn_time_label">Warn time:</string>
+    <string name="settings_button">Settings</string>
 </resources>

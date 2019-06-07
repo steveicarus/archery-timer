@@ -58,6 +58,9 @@ class TimerControlBox : public QMainWindow {
 	// Stop the timer, without advancing to the next end.
       int pause_timer_command(void);
 
+	// Toggle fullscreen displal mode.
+      int toggle_fullscreen_command(void);
+
 	// Display the network service port in use. This should only
 	// be called by the TimerNetworkService instance.
       void network_service_port(const QString&port_text);
