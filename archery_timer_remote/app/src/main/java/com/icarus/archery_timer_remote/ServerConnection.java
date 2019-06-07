@@ -14,6 +14,10 @@ public class ServerConnection extends AppCompatActivity {
 
     private static final String DTAG = "ServerConnection";
 
+    ArcheryTimer getArcheryTimer() {
+        return (ArcheryTimer) getApplication();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +43,7 @@ public class ServerConnection extends AppCompatActivity {
     public void receive_opened_socket(Socket port) {
         Log.d(DTAG, "Received socket:" + port.toString());
         if (port.isConnected()) {
-            ((ArcheryTimer)getApplication()).set_port(port);
+            getArcheryTimer().set_port(port);
             setResult(RESULT_OK);
             finish();
         }
@@ -48,7 +52,7 @@ public class ServerConnection extends AppCompatActivity {
     /* Disconnect by replacing the port with an unconnected socket. */
     public void disconnect_button_click(View view) {
         Log.d(DTAG, "Disconnect");
-        ((ArcheryTimer)getApplication()).set_port(new Socket());
+        getArcheryTimer().set_port(new Socket());
     }
 
 }

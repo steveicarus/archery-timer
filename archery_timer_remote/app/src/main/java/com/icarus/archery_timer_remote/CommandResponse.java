@@ -17,14 +17,14 @@ import java.nio.charset.StandardCharsets;
 public class CommandResponse extends AsyncTask<String, Integer, String> {
     private final static String DTAG = "CommandResponse";
 
-    private MainActivity src_;
+    private GetCommandResponse src_;
     private Socket port_;
     private String command_;
 
-    CommandResponse(MainActivity src) {
+    CommandResponse(GetCommandResponse src) {
         Log.d(DTAG, "Start CommandResponse.");
         src_ = src;
-        port_ = ((ArcheryTimer)src.getApplication()).get_port();
+        port_ = src_.getArcheryTimer().get_port();
     }
 
     @Override
@@ -87,14 +87,6 @@ public class CommandResponse extends AsyncTask<String, Integer, String> {
         if (resp_parts.length >= 2)
             resp_code = resp_parts[1];
 
-        if (command_ == "version") {
-            src_.set_version_string(resp_code);
-            return;
-        }
-
-        if (command_ == "next-end") {
-            src_.set_next_end_display(resp_code);
-            return;
-        }
+        src_.onCommandResponse(command_, resp_ok, resp_code);
     }
 }
