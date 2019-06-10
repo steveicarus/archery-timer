@@ -5,5 +5,5 @@ package com.icarus.archery_timer_remote;
  */
 public interface GetCommandResponse {
     ArcheryTimer getArcheryTimer();
-    void onCommandResponse(String cmd, String ok, String resp);
+    void onCommandResponse(String cmd, String ok, String resp_code, String resp_text);
 }

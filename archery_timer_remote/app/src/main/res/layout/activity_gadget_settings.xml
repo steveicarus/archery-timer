@@ -81,4 +81,25 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView6" />
+
+    <Button
+        android:id="@+id/settings_done_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:onClick="settings_done_click"
+        android:text="@string/settings_done_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <Button
+        android:id="@+id/settings_revert_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:onClick="settings_revert_click"
+        android:text="@string/settings_revert_button"
+        app:layout_constraintBaseline_toBaselineOf="@+id/settings_done_button"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

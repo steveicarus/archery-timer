@@ -173,6 +173,47 @@ int TimerControlBox::pause_timer_command(void)
       return 0;
 }
 
+int TimerControlBox::query_settings_command(QString&text)
+{
+      int callup_time = ui->callup_time_text->text().toInt();
+      int end_time    = ui->end_time_text   ->text().toInt();
+      int warn_time   = ui->warn_time_text  ->text().toInt();
+      text = QString::asprintf("callup-time=%d end-time=%d warn-time=%d",
+			       callup_time, end_time, warn_time);
+      return 0;
+}
+
+int TimerControlBox::set_command(const QString&text)
+{
+      QStringList pair = text.split('=');
+      if (pair.size() != 2) return -1;
+
+      if (pair[0] == "callup-time") {
+	    int val = pair[1].toInt();
+	    if (val == 0) return 0;
+	    QString txt;
+	    txt.setNum(val);
+	    ui->callup_time_text->setText(txt);
+
+      } else if (pair[0] == "end-time") {
+	    int val = pair[1].toInt();
+	    if (val == 0) return 0;
+	    QString txt;
+	    txt.setNum(val);
+	    ui->end_time_text->setText(txt);
+
+      } else if (pair[0] == "warn-time") {
+	    int val = pair[1].toInt();
+	    if (val == 0) return 0;
+	    QString txt;
+	    txt.setNum(val);
+	    ui->warn_time_text->setText(txt);
+
+      }
+
+      return 0;
+}
+
 /*
  * The remote control sends the toggle-fullscreen command. In
  * response, toggle fullscreen mode. If that causes the display to not

@@ -16,4 +16,6 @@
     <string name="end_time_label">End time:</string>
     <string name="warn_time_label">Warn time:</string>
     <string name="settings_button">Settings</string>
+    <string name="settings_done_button">Done</string>
+    <string name="settings_revert_button">Revert</string>
 </resources>

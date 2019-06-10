@@ -32,6 +32,7 @@ public class CommandResponse extends AsyncTask<String, Integer, String> {
         OutputStream wfd;
         InputStream rfd;
 
+        /* Save the command name, as that is handed to the response handler. */
         command_ = args[0];
         String response = "";
 
@@ -44,9 +45,14 @@ public class CommandResponse extends AsyncTask<String, Integer, String> {
         }
 
         /* Write the command with a terminating newline. */
-        Log.d(DTAG, "Write command: " + args[0]);
+        String full_command = new String(command_);
+        for (int idx = 1 ; idx < args.length ; idx += 1) {
+            full_command = full_command + " " + args[idx];
+        }
+
+        Log.d(DTAG, "Write command:" + command_ +  ":" + full_command);
         try {
-            byte[] cmd = args[0].getBytes(StandardCharsets.US_ASCII);
+            byte[] cmd = full_command.getBytes(StandardCharsets.US_ASCII);
             wfd.write(cmd);
             wfd.write('\n');
             wfd.flush();
@@ -78,15 +84,18 @@ public class CommandResponse extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String resp) {
-        String resp_parts[] = resp.split(":", 2);
+        String resp_parts[] = resp.split(":", 3);
         if (resp_parts.length == 0)
             return;
 
         String resp_ok = resp_parts[0];
         String resp_code = "";
+        String resp_text = "";
         if (resp_parts.length >= 2)
             resp_code = resp_parts[1];
+        if (resp_parts.length >= 3)
+            resp_text = resp_parts[2];
 
-        src_.onCommandResponse(command_, resp_ok, resp_code);
+        src_.onCommandResponse(command_, resp_ok, resp_code, resp_text);
     }
 }

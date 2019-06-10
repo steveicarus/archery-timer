@@ -20,6 +20,7 @@
  */
 
 # include  <QMainWindow>
+# include  <QString>
 # include  <QTimer>
 
 namespace Ui {
@@ -60,6 +61,12 @@ class TimerControlBox : public QMainWindow {
 
 	// Toggle fullscreen displal mode.
       int toggle_fullscreen_command(void);
+
+	// Set a setting.
+      int set_command(const QString&text);
+
+	// Query controller settings.
+      int query_settings_command(QString&text);
 
 	// Display the network service port in use. This should only
 	// be called by the TimerNetworkService instance.

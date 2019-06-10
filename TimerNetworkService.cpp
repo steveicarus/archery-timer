@@ -110,13 +110,25 @@ static inline QString ok_with_error_code(int rc)
       return res;
 }
 
+static inline QString ok_with_error_code(int rc, const QString&text)
+{
+      QString res = "OK:";
+      QString num;
+      num.setNum(rc, 10);
+      res.append(num);
+      res.append(":");
+      res.append(text);
+      res.append("\n");
+      return res;
+}
+
 void TimerNetworkService::process_command_(const QString&cmd)
 {
       QStringList args = cmd.simplified().split(' ', QString::SkipEmptyParts);
       if (args.size() == 0) return;
 
       if (args[0] == "version") {
-	    connection_->write("OK:version text\n");
+	    connection_->write(ok_with_error_code(0, "version text").toLatin1().data());
 	    return;
       }
 
@@ -156,6 +168,21 @@ void TimerNetworkService::process_command_(const QString&cmd)
       if (args[0] == "toggle-fullscreen") {
 	    int rc = controls_->toggle_fullscreen_command();
 	    connection_->write(ok_with_error_code(rc).toLatin1().data());
+	    return;
+      }
+
+      if (args[0] == "set") {
+	    int rc = 0;
+	    for (int idx = 1 ; idx < args.size() ; idx += 1)
+		  controls_->set_command(args[idx]);
+	    connection_->write(ok_with_error_code(rc).toLatin1().data());
+	    return;
+      }
+
+      if (args[0] == "query-settings") {
+	    QString text;
+	    int rc = controls_->query_settings_command(text);
+	    connection_->write(ok_with_error_code(rc, text).toLatin1().data());
 	    return;
       }
 

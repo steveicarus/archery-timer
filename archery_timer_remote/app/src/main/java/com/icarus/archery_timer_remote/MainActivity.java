@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity implements GetCommandRespons
      * Asynchronous response from the send_command (CommandResponse instance)
      * is handled in this method.
      */
-    public void onCommandResponse(String cmd, String ok, String resp) {
+    public void onCommandResponse(String cmd, String ok, String resp_code, String resp_text) {
         if (cmd .equals("version")) {
-            set_version_string(resp);
+            set_version_string(resp_text);
             return;
         }
 
         if (cmd .equals("next-end")) {
-            set_next_end_display(resp);
+            set_next_end_display(resp_code);
             return;
         }
     }
