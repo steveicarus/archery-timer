@@ -10,6 +10,7 @@ moc_*.cpp
 moc_predefs.h
 ui_*.h
 
-# qmake generates the Makefile
+# qmake generates the Makefile, and a few other files.
 Makefile
 .qmake.stash
+version_tag.h

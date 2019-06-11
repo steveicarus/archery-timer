@@ -1,0 +1,6 @@
+#ifndef __version_tag_H
+#define __version_tag_H
+
+# define VERSION_TAG '"$$VERSION_STRING"'
+
+#endif

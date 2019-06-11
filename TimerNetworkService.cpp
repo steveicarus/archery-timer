@@ -19,6 +19,7 @@
 
 # include  "TimerNetworkService.h"
 # include  "TimerControlBox.h"
+# include  "version_tag.h"
 # include  <QTcpSocket>
 # include  <cstdio>
 # include  <cassert>
@@ -128,7 +129,7 @@ void TimerNetworkService::process_command_(const QString&cmd)
       if (args.size() == 0) return;
 
       if (args[0] == "version") {
-	    connection_->write(ok_with_error_code(0, "version text").toLatin1().data());
+	    connection_->write(ok_with_error_code(0, VERSION_TAG).toLatin1().data());
 	    return;
       }
 
