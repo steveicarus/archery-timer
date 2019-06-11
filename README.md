@@ -9,11 +9,11 @@ the main window on a screen that the archers of a tournament can see (and hear)
 so that it handles line timing.
 
 The aspects of
-a shooting cycle are the callup (archers to the line), the "end" (this shooting
+a shooting cycle are the callup (archers to the line), the "end" (the shooting
 time), and "clear" (shooting is done). When there is only one line shooting, the
 order of events is:
 
-* Callup (2 whistles) - The archers are called to the line.
+* Callup (2 whistles) - The archers are called to the line. The callup timer starts counting.
 
 * Line's Hot (1 whistle) - The archers are clear to shoot. They have until the end
 timer runs out to shoot the arrows of the end.

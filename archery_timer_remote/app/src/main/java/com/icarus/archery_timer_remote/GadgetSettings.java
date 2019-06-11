@@ -8,8 +8,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.net.Socket;
-import java.util.ArrayList;
 
+/*
+ * This Activity allows the user to edit settings for the Archery Timer.
+ * We mostly use the "set" and "query-settings" network commands to make
+ * the changes we want to make.
+ */
 public class GadgetSettings extends AppCompatActivity implements GetCommandResponse {
     final private String DTAG = "GadgetSettings";
 
@@ -19,13 +23,18 @@ public class GadgetSettings extends AppCompatActivity implements GetCommandRespo
 
     /* The query returns OK:0:<tokens>, where the tokens are all <key>=<value>.
      * Go through the tokens, and process all the values in the response.
+     * Ignore any keys that we do not recognise.
      */
     private void process_query_settings(String resp_code, String resp_text) {
         Log.d(DTAG, "process_query_settings: resp=" + resp_code + ":" + resp_text);
-        String text_parts[] = resp_text.split(" ");
+        String[] text_parts = resp_text.split(" ");
 
         for (int idx = 0 ; idx < text_parts.length ; idx += 1) {
-            String token_parts[] = text_parts[idx].split("=", 2);
+            String[] token_parts = text_parts[idx].split("=", 2);
+            if (token_parts.length < 2) {
+                Log.i(DTAG, "Ignoring bad query response token: " + text_parts[idx]);
+                continue;
+            }
 
             if (token_parts[0] .equals("callup-time")) {
                 TextView view = findViewById(R.id.callup_time_text);
