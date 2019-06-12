@@ -99,6 +99,17 @@ bool TimerMain::toggle_fullscreen(void)
       return fullscreen_flag_;
 }
 
+void TimerMain::set_fullscreen(bool flag)
+{
+      if (flag) {
+	    fullscreen_flag_ = true;
+	    showFullScreen();
+      } else {
+	    fullscreen_flag_ = false;
+	    showNormal();
+      }
+}
+
 void TimerMain::keyPressEvent(QKeyEvent*event)
 {
 

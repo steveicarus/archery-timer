@@ -31,3 +31,26 @@ just pull out the ethernet cable to disconnect from the LAN.
 
 This is necessary to support sound through QT, and it is apparently
 not installed by default.
+
+* Installing the archery-timer from source
+
+Unpack the archery-timer tarball into the /home/pi directory. Then
+build the application like so:
+
+  $ cd /home/pi/archery-timer
+  $ qmake
+  $ make
+
+That should create the archery-timer executable. Set it up so that the
+program is started when the pi user logs in, by copying the .desktop
+file in place:
+
+  $ cd /home/pi/.config
+  $ mkdir autostart
+  $ cd autostart
+  $ ln -s /home/pi/archery-timer/archery-timer.desktop
+
+Now, whenever the pi user is logged in to the desktop, the archery
+timer program is started. It is a good idea to set up the pi so that
+the pi user is auto-logged in graphically. Thus, the pi becomes a
+device you just turn on.

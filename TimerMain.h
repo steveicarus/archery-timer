@@ -49,6 +49,7 @@ class TimerMain : public QMainWindow
 	// Toggle fullscreen mode. Return true if the result leaves
 	// the timer in fullscreen mode.
       bool toggle_fullscreen(void);
+      void set_fullscreen(bool flag);
 
     protected:
       void keyPressEvent(QKeyEvent*event);

@@ -25,16 +25,54 @@
 int main(int argc, char*argv[])
 {
     QApplication app(argc, argv);
+    bool timer_fullscreen_flag = false;
+    bool control_box_show_flag = true;
 
+      // Look for arguments that are interesting to us.
+    QStringList args = app.arguments();
+    for (int idx = 1 ; idx < args.size() ; idx += 1) {
+	  if (args[idx] == "--timer-fullscreen") {
+		timer_fullscreen_flag = true;
+		continue;
+	  }
+	  if (args[idx] == "--no-timer-fullscreen") {
+		timer_fullscreen_flag = false;
+		continue;
+	  }
+	  if (args[idx] == "--control-box") {
+		control_box_show_flag = true;
+		continue;
+	  }
+	  if (args[idx] == "--no-control-box") {
+		control_box_show_flag = false;
+		continue;
+	  }
+	  if (args[idx] == "--fulscreen") {
+		timer_fullscreen_flag = true;
+		control_box_show_flag = false;
+		continue;
+	  }
+	  if (args[idx] == "--no-fullscreen") {
+		timer_fullscreen_flag = false;
+		control_box_show_flag = true;
+	  }
+    }
+    
     TimerMain timer_main;
     timer_main.show();
+    timer_main.set_fullscreen(timer_fullscreen_flag);
 
     TimerControlBox timer_box;
     timer_main.set_control_box(&timer_box);
-    timer_box.show();
 
       // Bind the timer window with the control box.
     timer_box.set_timer_window(&timer_main);
+
+      // Show or hide the control box based on fullscreen mode.
+    if (control_box_show_flag)
+	  timer_box.show();
+    else
+	  timer_box.hide();
 
       // Create a network service and bind it to the control box. By
       // setting the timer_box as the parent, the allocated object

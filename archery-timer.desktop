@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Icarus Archery Timer
-Exec=/home/pi/archery-timer/archery-timer
+Exec=/home/pi/archery-timer/archery-timer --timer-fullscreen --control-box
 Terminal=true
 Type=Application
 
