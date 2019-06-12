@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Icarus Archery Timer
+Exec=/home/pi/archery-timer/archery-timer
+Terminal=true
+Type=Application
+
