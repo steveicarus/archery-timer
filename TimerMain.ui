@@ -103,6 +103,18 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QLabel" name="connected_label">
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Connected</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>

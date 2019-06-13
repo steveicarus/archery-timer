@@ -110,6 +110,11 @@ void TimerMain::set_fullscreen(bool flag)
       }
 }
 
+void TimerMain::network_service_port(const QString&port_text)
+{
+      ui->connected_label->setText(port_text);
+}
+
 void TimerMain::keyPressEvent(QKeyEvent*event)
 {
 

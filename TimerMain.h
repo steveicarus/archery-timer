@@ -39,7 +39,7 @@ class TimerMain : public QMainWindow
 
     public:
       void set_end_number(int val, bool practice_flag);
-      
+
 	// Set the text for the active line display.
       void set_line_text(const class QString&txt);
       
@@ -50,6 +50,9 @@ class TimerMain : public QMainWindow
 	// the timer in fullscreen mode.
       bool toggle_fullscreen(void);
       void set_fullscreen(bool flag);
+
+	// Display the connected status
+      void network_service_port(const QString&port_text);
 
     protected:
       void keyPressEvent(QKeyEvent*event);

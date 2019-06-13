@@ -229,6 +229,7 @@ int TimerControlBox::toggle_fullscreen_command(void)
 void TimerControlBox::network_service_port(const QString&port_text)
 {
       ui->remote_port_text->setText(port_text);
+      if (timer_window_) timer_window_->network_service_port(port_text);
 }
 
 void TimerControlBox::set_running_state_(void)
