@@ -24,7 +24,7 @@ public class CommandResponse extends AsyncTask<String, Integer, String> {
     CommandResponse(GetCommandResponse src) {
         Log.d(DTAG, "Start CommandResponse.");
         src_ = src;
-        port_ = src_.getArcheryTimer().get_port();
+        port_ = src_.getArcheryTimer().get_socket();
     }
 
     @Override

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements GetCommandRespons
 
     /* Check if the port is connected, and if so start the command. */
     private void send_command(String cmd) {
-        Socket timer_port = getArcheryTimer().get_port();
+        Socket timer_port = getArcheryTimer().get_socket();
         if (timer_port.isConnected())
             (new CommandResponse(this)).execute(cmd);
     }

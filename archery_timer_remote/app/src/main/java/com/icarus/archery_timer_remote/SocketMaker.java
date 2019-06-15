@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -22,12 +23,25 @@ class SocketMaker extends AsyncTask<String, Integer, Socket> {
     private final static String DTAG = "SocketMaker";
 
     private ServerConnection src_;
+    private InetAddress addr_;
+    private String hostname_;
+    private int port_;
 
-    SocketMaker(ServerConnection src) {
+    SocketMaker(ServerConnection src, String host, int port) {
         Log.d(DTAG, "Start maker task.");
         src_ = src;
+        addr_ = null;
+        hostname_ = host;
+        port_ = port;
     }
 
+    SocketMaker(ServerConnection src, InetAddress addr, int port) {
+        Log.d(DTAG, "Start maker task with InetAddr.");
+        src_ = src;
+        addr_ = addr;
+        hostname_ = null;
+        port_ = port;
+    }
     /*
      * This method is run in the background, with the host and port
      * names, and tries to connect a socket.
@@ -40,34 +54,33 @@ class SocketMaker extends AsyncTask<String, Integer, Socket> {
          * left unconnected.
          */
         Socket port = new Socket();
-
-        /* Get from the argument list the host name and port. */
-        if (args.length < 2) {
-            Log.d(DTAG, "Not enough arguments.");
-            return port;
-        }
-
-        String use_hostname = args[0];
-        int use_port = Integer.parseInt(args[1]);
-        Log.d(DTAG, "use_hostname="+use_hostname+", use_port="+use_port);
-
-        /* Turn the hostname and port to a socket address. */
         InetSocketAddress addr;
-        try {
-            addr = new InetSocketAddress(use_hostname, use_port);
-        } catch (SecurityException e) {
-            Log.d(DTAG, "SecurityException resolving name: " + e.getMessage());
-            return port;
-        } catch (IllegalArgumentException e) {
-            Log.d(DTAG, "Illegal Argument to InsetSocketAddress.");
-            return port;
-        }
-        if (addr.isUnresolved()) {
-            Log.d(DTAG, "Unable to resolve " + use_hostname + ":" + use_port);
-            return port;
+
+        if (hostname_ != null) {
+            String use_hostname = hostname_;
+            Log.d(DTAG, "use_hostname=" + use_hostname + ", use_port=" + port_);
+
+            /* Turn the hostname and port to a socket address. */
+            try {
+                addr = new InetSocketAddress(use_hostname, port_);
+            } catch (SecurityException e) {
+                Log.d(DTAG, "SecurityException resolving name: " + e.getMessage());
+                return port;
+            } catch (IllegalArgumentException e) {
+                Log.d(DTAG, "Illegal Argument to InsetSocketAddress.");
+                return port;
+            }
+            if (addr.isUnresolved()) {
+                Log.d(DTAG, "Unable to resolve " + use_hostname + ":" + port_);
+                return port;
+            } else {
+                Log.d(DTAG, "Resolved address to: " + addr.toString());
+            }
         } else {
-            Log.d(DTAG, "Resolved address to: " + addr.toString());
+            addr = new InetSocketAddress(addr_, port_);
         }
+
+        Log.d(DTAG, "InetSocketAddress = " + addr.toString());
 
         /* Make a socket and try to connect it. */
         try {
