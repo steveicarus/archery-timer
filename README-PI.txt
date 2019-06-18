@@ -32,6 +32,12 @@ just pull out the ethernet cable to disconnect from the LAN.
 This is necessary to support sound through QT, and it is apparently
 not installed by default.
 
+* Install avahi client devel files: libavahi-common-dev, libavahi-core-dev, libavahi-client-dev
+
+This is necessary to support ZeroConf on the PI when building the
+archery-timer program. There might be missing dependencies that these
+packages have as well.
+
 * Installing the archery-timer from source
 
 Unpack the archery-timer tarball into the /home/pi directory. Then
