@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -44,17 +45,36 @@ public class ArcheryTimer extends Application implements NsdManager.DiscoveryLis
     }
 
     private NsdServiceInfo service_info_;
+    private TextView waiting_for_service_info_;
 
-    public String get_discovered_name() {
-        return service_info_.getServiceName();
+    private String get_discovered_name() {
+        if (service_info_ == null)
+            return "* Searching... *";
+        else
+            return service_info_.getServiceName();
+    }
+
+    public void show_discovered_name(TextView widget) {
+        widget.setText(get_discovered_name());
+        waiting_for_service_info_ = widget;
+    }
+
+    public void unshow_discovered_name() {
+        waiting_for_service_info_ = null;
     }
 
     public InetAddress get_discovered_addr() {
-        return service_info_.getHost();
+        if (service_info_ == null)
+            return null;
+        else
+            return service_info_.getHost();
     }
 
     public int get_discovered_port() {
-        return service_info_.getPort();
+        if (service_info_ == null)
+            return -1;
+        else
+            return service_info_.getPort();
     }
 
     // The timer_port_ is the Socket connection to the remote
@@ -114,6 +134,8 @@ public class ArcheryTimer extends Application implements NsdManager.DiscoveryLis
         String name = info.getServiceName();
         Log.d(DTAG, "Service " + name + " resolved to " + addr.toString() + ":" + port);
         service_info_ = info;
+        if (waiting_for_service_info_ != null)
+            waiting_for_service_info_.setText(name);
     }
 
     public void onResolveFailed(NsdServiceInfo info, int error_code) {

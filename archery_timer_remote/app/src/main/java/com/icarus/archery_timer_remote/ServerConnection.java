@@ -27,15 +27,30 @@ public class ServerConnection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_connection);
-
-        String discovered_name = getArcheryTimer().get_discovered_name();
         TextView button = findViewById(R.id.discovered_server_button);
-        button.setText(discovered_name);
+        button.setText("...");
+    }
+
+    protected void onStart() {
+        super.onStart();
+        TextView button = findViewById(R.id.discovered_server_button);
+        getArcheryTimer().show_discovered_name(button);
+    }
+
+    protected void onStop() {
+        super.onStop();
+        getArcheryTimer().unshow_discovered_name();
+        TextView button = findViewById(R.id.discovered_server_button);
+        button.setText("...");
     }
 
     public void discovered_server_button_click(View view) {
         ArcheryTimer app = getArcheryTimer();
         InetAddress addr = app.get_discovered_addr();
+        if (addr == null) {
+            Log.d(DTAG, "discovered_server_button_click: No discovered server.");
+            return;
+        }
         int port = app.get_discovered_port();
 
         Log.d(DTAG, "Try Connect to " + addr.toString() + ":" + port);
