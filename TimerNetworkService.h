@@ -49,6 +49,7 @@
 
 # include  <QString>
 # include  <QTcpServer>
+# include  "qzeroconf.h"
 
 class TimerControlBox;
 class QTcpSocket;
@@ -67,9 +68,16 @@ class TimerNetworkService : private QTcpServer {
       void ready_read(void);
       void port_disconnected(void);
 
+      void service_added(QZeroConfService srv);
+      void service_removed(QZeroConfService srv);
+      void service_updated(QZeroConfService srv);
+
     private:
       void process_command_(const QString&cmd);
 
+    private:
+	// State machine for publishing my address.
+      QZeroConf       zero_conf_;
     private:
       TimerControlBox*controls_;
       QTcpSocket*     connection_;

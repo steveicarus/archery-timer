@@ -151,11 +151,37 @@ TimerNetworkService::TimerNetworkService(TimerControlBox*parent)
 
       connect(this, SIGNAL(newConnection()), SLOT(new_connection_signal()));
 
+      connect(&zero_conf_, SIGNAL(serviceAdded(QZeroConfService)),
+	      this, SLOT(service_added(QZeroConfService)));
+      connect(&zero_conf_, SIGNAL(serviceRemoved(QZeroConfService)),
+	      this, SLOT(service_removed(QZeroConfZervice)));
+      connect(&zero_conf_, SIGNAL(serviceUpdated(QZeroConfService)),
+	      this, SLOT(service_updated(QZeroConfService)));
+
+#if 0
+      QList<QHostAddress> tmp_addresses = QNetworkInterface::allAddresses();
+      QList<QHostAddress> addresses;
+      for (QList<QHostAddress>::const_iterator cur = tmp_addresses.begin()
+		 ; cur != tmp_addresses.end() ; ++ cur) {
+	      // Skip loopback addresses.
+	    if (cur->isLoopback()) continue;
+
+	    addresses.append(*cur);
+      }
+      for (QList<QHostAddress>::const_iterator cur = addresses.begin()
+		 ; cur != addresses.end() ; ++ cur) {
+	    fprintf(stdout, "XXXX Host IP address: %s\n", cur->toString().toLatin1().data());
+      }
+#endif
+
       listen();
       fprintf(stdout, "XXXX TimerNetworkService: server port = %u\n", serverPort());
       QString port_text;
       port_text.setNum(serverPort());
       controls_->network_service_port(port_text);
+
+      zero_conf_.clearServiceTxtRecords();
+      zero_conf_.startServicePublish("Icarus Archery Timer", "_icarus_archery_timer._tcp", "local", serverPort());
 }
 
 TimerNetworkService::~TimerNetworkService()
@@ -179,6 +205,8 @@ void TimerNetworkService::new_connection_signal(void)
 	    controls_->network_service_port("connected");
 	    connect(connection_, SIGNAL(readyRead()),   SLOT(ready_read()));
 	    connect(connection_, SIGNAL(disconnected()),SLOT(port_disconnected()));
+	      // Stop publishing, if connected.
+	    zero_conf_.stopServicePublish();
       }
 }
 
@@ -216,6 +244,24 @@ void TimerNetworkService::port_disconnected(void)
       QString port_text;
       port_text.setNum(serverPort());
       controls_->network_service_port(port_text);
+	// Resume publishing.
+      zero_conf_.clearServiceTxtRecords();
+      zero_conf_.startServicePublish("Icarus Archery Timer", "_icarus_archery_timer._tcp", "local", serverPort());
+}
+
+void TimerNetworkService::service_added(QZeroConfService)
+{
+      fprintf(stderr, "XXXX TimerNetworkService::service_added NOT IMPLEMENTED.\n");
+}
+
+void TimerNetworkService::service_removed(QZeroConfService)
+{
+      fprintf(stderr, "XXXX TimerNetworkService::service_removed NOT IMPLEMENTED.\n");
+}
+
+void TimerNetworkService::service_updated(QZeroConfService)
+{
+      fprintf(stderr, "XXXX TimerNetworkService::service_updated NOT IMPLEMENTED.\n");
 }
 
 static inline QString ok_with_error_code(int rc)

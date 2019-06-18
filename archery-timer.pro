@@ -1,6 +1,8 @@
 TEMPLACE = app
 TARGET = archery-timer
 
+DEFINES += QZEROCONF_STATIC
+
 QT += multimedia widgets
 
 VERSION_STRING = $$system(git describe --always --dirty)
@@ -21,3 +23,5 @@ SOURCES = main.cpp \
 
 #target.path = 
 #INSTALLS += target
+
+include(QtZeroConf/qtzeroconf.pri)
