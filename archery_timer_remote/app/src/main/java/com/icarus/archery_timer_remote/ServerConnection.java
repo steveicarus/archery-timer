@@ -33,6 +33,7 @@ public class ServerConnection extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
+        Log.d(DTAG, "onStart()");
         TextView button = findViewById(R.id.discovered_server_button);
         getArcheryTimer().show_discovered_name(button);
     }
@@ -42,6 +43,7 @@ public class ServerConnection extends AppCompatActivity {
         getArcheryTimer().unshow_discovered_name();
         TextView button = findViewById(R.id.discovered_server_button);
         button.setText("...");
+        Log.d(DTAG, "onStop()");
     }
 
     public void discovered_server_button_click(View view) {

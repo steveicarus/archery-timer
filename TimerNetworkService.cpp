@@ -154,7 +154,7 @@ TimerNetworkService::TimerNetworkService(TimerControlBox*parent)
       connect(&zero_conf_, SIGNAL(serviceAdded(QZeroConfService)),
 	      this, SLOT(service_added(QZeroConfService)));
       connect(&zero_conf_, SIGNAL(serviceRemoved(QZeroConfService)),
-	      this, SLOT(service_removed(QZeroConfZervice)));
+	      this, SLOT(service_removed(QZeroConfService)));
       connect(&zero_conf_, SIGNAL(serviceUpdated(QZeroConfService)),
 	      this, SLOT(service_updated(QZeroConfService)));
 
@@ -206,7 +206,7 @@ void TimerNetworkService::new_connection_signal(void)
 	    connect(connection_, SIGNAL(readyRead()),   SLOT(ready_read()));
 	    connect(connection_, SIGNAL(disconnected()),SLOT(port_disconnected()));
 	      // Stop publishing, if connected.
-	    zero_conf_.stopServicePublish();
+	      //zero_conf_.stopServicePublish();
       }
 }
 
@@ -245,8 +245,8 @@ void TimerNetworkService::port_disconnected(void)
       port_text.setNum(serverPort());
       controls_->network_service_port(port_text);
 	// Resume publishing.
-      zero_conf_.clearServiceTxtRecords();
-      zero_conf_.startServicePublish("Icarus Archery Timer", "_icarus_archery_timer._tcp", "local", serverPort());
+	//zero_conf_.clearServiceTxtRecords();
+	//zero_conf_.startServicePublish("Icarus Archery Timer", "_icarus_archery_timer._tcp", "local", serverPort());
 }
 
 void TimerNetworkService::service_added(QZeroConfService)

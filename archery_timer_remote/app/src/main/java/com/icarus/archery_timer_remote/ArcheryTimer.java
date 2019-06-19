@@ -54,15 +54,6 @@ public class ArcheryTimer extends Application implements NsdManager.DiscoveryLis
             return service_info_.getServiceName();
     }
 
-    public void show_discovered_name(TextView widget) {
-        widget.setText(get_discovered_name());
-        waiting_for_service_info_ = widget;
-    }
-
-    public void unshow_discovered_name() {
-        waiting_for_service_info_ = null;
-    }
-
     public InetAddress get_discovered_addr() {
         if (service_info_ == null)
             return null;
@@ -76,6 +67,22 @@ public class ArcheryTimer extends Application implements NsdManager.DiscoveryLis
         else
             return service_info_.getPort();
     }
+
+    // Discovery is turned on when show_discovered_name() is called, and is turned
+    // off when unshow_discovered_name() is called. This way, the screen that shows
+    // the discovered service is continuously updated while it is visible, and the
+    // process is turned off when not needed.
+    public void show_discovered_name(TextView widget) {
+        nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, this);
+        widget.setText(get_discovered_name());
+        waiting_for_service_info_ = widget;
+    }
+
+    public void unshow_discovered_name() {
+        nsdManager.stopServiceDiscovery(this);
+        waiting_for_service_info_ = null;
+    }
+
 
     // The timer_port_ is the Socket connection to the remote
     // device that we are connecting to.
@@ -96,14 +103,14 @@ public class ArcheryTimer extends Application implements NsdManager.DiscoveryLis
     }
 
     // This method is called when the application is created. Get the members
-    // we need for future use, and start discovery running in the background.
+    // we need for future use, and get the NdManager instance needed for
+    // tracking service discovery.
     @Override
     public void onCreate() {
         Log.i(DTAG, "Create ArcheryTimer.");
         super.onCreate();
         service_info_ = null;
         nsdManager = (NsdManager)getSystemService(Context.NSD_SERVICE);
-        nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, this);
     }
 
     @Override
@@ -125,6 +132,9 @@ public class ArcheryTimer extends Application implements NsdManager.DiscoveryLis
     @Override
     public void onServiceLost(NsdServiceInfo info) {
         Log.d(DTAG, "Service lost.");
+        service_info_ = null;
+        if (waiting_for_service_info_ != null)
+            waiting_for_service_info_.setText(get_discovered_name());
     }
 
     public void onServiceResolved(NsdServiceInfo info) {
@@ -139,7 +149,7 @@ public class ArcheryTimer extends Application implements NsdManager.DiscoveryLis
     }
 
     public void onResolveFailed(NsdServiceInfo info, int error_code) {
-        Log.d(DTAG, "Resolve failed.");
+        Log.d(DTAG, "Resolve failed for " + info.toString() + ", error_code=" + error_code);
     }
 
     @Override

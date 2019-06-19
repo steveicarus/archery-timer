@@ -36,7 +36,8 @@ not installed by default.
 
 This is necessary to support ZeroConf on the PI when building the
 archery-timer program. There might be missing dependencies that these
-packages have as well.
+packages have as well. For testing and debugging, you may want to also
+install avahi-utils.
 
 * Installing the archery-timer from source
 
