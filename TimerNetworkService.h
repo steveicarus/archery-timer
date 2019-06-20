@@ -37,7 +37,11 @@
  * close-detach
  *     close the link and detach the controller.
  *
- * next-end
+ * next-end <number> practice|no-practice
+ *     Set up for the next end. The <number> is used at the upcoming
+ *     end number, and the practice|no-practice selects whether this
+ *     is a practice end. The return code is the end to happen AFTER
+ *     this (i.e. <number>+1) or an error code.
  *
  * start-timer
  *

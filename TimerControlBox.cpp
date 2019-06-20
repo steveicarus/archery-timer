@@ -83,30 +83,27 @@ void TimerControlBox::set_timer_window(TimerMain*timer)
 }
 
 /*
- * Advance to the next end. Advance the end counter, set up the timer
- * counters to the correct sizes, and set the line label to the line
- * that starts the next end.
+ * Advance to the specified end. Set the displays for the end, select
+ * the starting line, and prepare for everything to start
+ * happening. Return the number for the next end, or <0 for an error.
  *
- * If the tiner is still running for the current end, then return an
+ * If the timer is still running for the current end, then return an
  * error.
  */
-int TimerControlBox::next_end_command(void)
+int TimerControlBox::next_end_command(int end_number, bool practice_flag)
 {
       if (timer_running_flag_) {
 	    return -1;
       }
 
 	// Count and display the end number.
-      int end_counter = ui->end_count_box->value();
-      ui->end_count_box->setValue(end_counter+1);
-      bool practice_flag = ui->practice_check->checkState()? true : false;
       bool toggle_order_flag = ui->toggle_order_check->checkState()? true : false;
-      timer_window_->set_end_number(end_counter, practice_flag);
+      timer_window_->set_end_number(end_number, practice_flag);
 
 	// This is true if there are multiple lines.
       bool dual_line_flag = ui->line_cd_check->checkState()? true : false;
 
-      if (dual_line_flag && toggle_order_flag && (end_counter%2 == 0)) {
+      if (dual_line_flag && toggle_order_flag && (end_number%2 == 0)) {
 	    
 	      // If there are 2 lines, and this is an even end, then
 	      // the cd line is first up, followed by the ab line.
@@ -131,7 +128,17 @@ int TimerControlBox::next_end_command(void)
       timer_window_->set_time_value(timer_callup_, TimerMain::TIMER_CALLUP);
       ui->go_button->setEnabled(true);
 
-      return end_counter;
+	// Return the number for the next end.
+      return end_number + 1;
+}
+
+int TimerControlBox::next_end_command(void)
+{
+      int end_counter = ui->end_count_box->value();
+      bool practice_flag = ui->practice_check->checkState()? true : false;
+      int next_end = next_end_command(end_counter, practice_flag);
+      if (next_end >= 0) ui->end_count_box->setValue(next_end);
+      return next_end;
 }
 
 int TimerControlBox::start_timer_command(void)

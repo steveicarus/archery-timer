@@ -46,6 +46,7 @@ class TimerControlBox : public QMainWindow {
 	// This method sets up for the next end. If the timer is still
 	// running, it returns -1. Otherwise, it sets up the counters
 	// for the next end and returns >= 0.
+      int next_end_command(int end_number, bool practice_flag);
       int next_end_command(void);
 
 	// Start the timer.

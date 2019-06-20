@@ -4,13 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity implements GetCommandResponse {
-    // private final static String DTAG = "MainActivity";
+    private final static String DTAG = "MainActivity";
 
     /*
      * Return the ArcheryTimer application instance for this object.
@@ -23,7 +25,30 @@ public class MainActivity extends AppCompatActivity implements GetCommandRespons
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(DTAG, "onCreate()");
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(DTAG, "onStart()");
+        ArcheryTimer app = getArcheryTimer();
+        TextView end_number = findViewById(R.id.end_number);
+        CheckBox practice_check = findViewById(R.id.practice_check);
+        end_number.setText(app.get_end_number());
+        practice_check.setChecked(app.get_practice_flag());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ArcheryTimer app = getArcheryTimer();
+        TextView end_number = findViewById(R.id.end_number);
+        CheckBox practice_check = findViewById(R.id.practice_check);
+        app.save_end_state(end_number.getText().toString(),
+                           practice_check.isChecked() ? true : false);
+        Log.d(DTAG, "onStop()");
     }
 
     /** Called when the user taps the Connect button */
@@ -45,6 +70,11 @@ public class MainActivity extends AppCompatActivity implements GetCommandRespons
             (new CommandResponse(this)).execute(cmd);
     }
 
+    private void send_command(String cmd, String arg1, String arg2) {
+        Socket timer_port = getArcheryTimer().get_socket();
+        if (timer_port.isConnected())
+            (new CommandResponse(this)).execute(cmd, arg1, arg2);
+    }
     /*
      * Asynchronous response from the send_command (CommandResponse instance)
      * is handled in this method.
@@ -69,7 +99,11 @@ public class MainActivity extends AppCompatActivity implements GetCommandRespons
 
 
     public void next_end_button_click(View view) {
-        send_command("next-end");
+        TextView end_number = findViewById(R.id.end_number);
+        CheckBox practice_check = findViewById(R.id.practice_check);
+        String use_end = end_number.getText().toString();
+        String use_practice = practice_check.isChecked() ? "practice" : "no-practice";
+        send_command("next-end", use_end, use_practice);
     }
 
     public void start_timer_button_click(View view) {
@@ -89,8 +123,14 @@ public class MainActivity extends AppCompatActivity implements GetCommandRespons
         view.setText(text);
     }
 
+    // This is called by the onCommandResponse() method when the
+    // next-end command returns its response.
     public void set_next_end_display(String text) {
-        TextView view = findViewById(R.id.end_number);
-        view.setText(text);
+        ArcheryTimer app = getArcheryTimer();
+        TextView end_number = findViewById(R.id.end_number);
+        end_number.setText(text);
+        CheckBox practice_check = findViewById(R.id.practice_check);
+        app.save_end_state(end_number.getText().toString(),
+                           practice_check.isChecked() ? true : false);
     }
 }

@@ -23,6 +23,17 @@ public class ArcheryTimer extends Application implements NsdManager.DiscoveryLis
     // Archery Timer device that we will remote control.
     private final static String SERVICE_TYPE = "_icarus_archery_timer._tcp";
 
+    // Save/recall the state of the practice end entry box.
+    private String save_end_number_ = "1";
+    private boolean save_practice_flag_ = false;
+    void save_end_state(String end_number, boolean practice_flag) {
+        save_end_number_ = end_number;
+        save_practice_flag_ = practice_flag;
+    }
+
+    String get_end_number() { return save_end_number_; }
+    boolean get_practice_flag() { return save_practice_flag_; }
+
     private NsdManager nsdManager;
 
     // Receiver class to receive resolve results. This is a hook that

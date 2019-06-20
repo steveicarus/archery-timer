@@ -306,7 +306,27 @@ void TimerNetworkService::process_command_(const QString&cmd)
       }
       
       if (args[0] == "next-end") {
-	    int rc = controls_->next_end_command();
+	    int rc = -1;
+	    if (args.size() < 2) {
+		    // Handle the old case, where we let the service
+		    // do the end counting.
+		  rc = controls_->next_end_command();
+
+	    } else {
+		    // Handle the generate case that the next end
+		    // number and practice flag are passed in.
+		  int end_number = args[1].toInt();
+		  bool practice_flag = false;
+		  for (int idx = 2 ; idx < args.size() ; idx += 1) {
+			if (args[idx] == "practice") {
+			      practice_flag = true;
+			} else if (args[idx] == "no-practice") {
+			      practice_flag = false;
+			} else {
+			}
+		  }
+		  rc = controls_->next_end_command(end_number, practice_flag);
+	    }
 	    connection_->write(ok_with_error_code(rc).toLatin1().data());
 	    return;
       }
