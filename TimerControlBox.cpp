@@ -82,6 +82,24 @@ void TimerControlBox::set_timer_window(TimerMain*timer)
       timer_window_ = timer;
 }
 
+int TimerControlBox::special_end_command(const QString&label_txt)
+{
+      if (timer_running_flag_) {
+	    return -1;
+      }
+
+      timer_window_->set_line_text(label_txt);
+      timer_callup_ = ui->callup_time_text->text().toInt();
+      timer_end_    = ui->end_time_text->text().toInt() + 1;
+      timer_end_warn_ = ui->warn_time_text->text().toInt();
+      timer_next_line_ = 0;
+
+      timer_window_->set_time_value(timer_callup_, TimerMain::TIMER_CALLUP);
+      ui->go_button->setEnabled(true);
+
+      return 0;
+}
+
 /*
  * Advance to the specified end. Set the displays for the end, select
  * the starting line, and prepare for everything to start

@@ -64,6 +64,15 @@
  * closes the port, which detaches from the client. New connections
  * can be made.
  *
+ *** makeup-end
+ *   -> OK:0
+ *   -> OK:-1
+ *
+ * Tell the timer to set up a makeup end. The end number does not
+ * advance, and only a single line is called up. That like is called
+ * "MAKEUP" to make clear this is a special line. Use the start-timer
+ * to actually start the end.
+ *
  *** next-end
  *   -> OK:<N>
  *
@@ -304,7 +313,13 @@ void TimerNetworkService::process_command_(const QString&cmd)
 	    tmp->close();
 	    return;
       }
-      
+
+      if (args[0] == "makeup-end") {
+	    int rc = controls_->special_end_command("MAKEUP");
+	    connection_->write(ok_with_error_code(rc).toLatin1().data());
+	    return;
+      }
+
       if (args[0] == "next-end") {
 	    int rc = -1;
 	    if (args.size() < 2) {

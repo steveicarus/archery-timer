@@ -85,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements GetCommandRespons
             return;
         }
 
+        if (cmd .equals("makeup-end")) {
+            return;
+        }
+
         if (cmd .equals("next-end")) {
             set_next_end_display(resp_code);
             return;
@@ -104,6 +108,10 @@ public class MainActivity extends AppCompatActivity implements GetCommandRespons
         String use_end = end_number.getText().toString();
         String use_practice = practice_check.isChecked() ? "practice" : "no-practice";
         send_command("next-end", use_end, use_practice);
+    }
+
+    public void makeup_end_button_click(View view) {
+        send_command("makeup-end");
     }
 
     public void start_timer_button_click(View view) {

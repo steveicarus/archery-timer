@@ -23,4 +23,5 @@
     <string name="discovered_server_help">The timer gadget should be found automatically. Use this button to connect to it.</string>
     <string name="disconnect_help">However you connected, you can use this \"disconnect\" button to disconnect again to make the gadget available to other remotes.</string>
     <string name="practice_check">Practice</string>
+    <string name="makeup_end_button">Makeup End</string>
 </resources>

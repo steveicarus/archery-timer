@@ -132,6 +132,11 @@ void TimerMain::keyPressEvent(QKeyEvent*event)
 	    toggle_fullscreen();
 	    return;
       }
+	// Makeup end.
+      if (event->key() == Qt::Key_M) {
+	    control_box_->special_end_command("MAKEUP");
+	    return;
+      }
 	// Keyboard commands for running the timer
       if (event->key() == Qt::Key_N) {
 	    control_box_->next_end_command();

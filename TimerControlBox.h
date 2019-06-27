@@ -43,6 +43,10 @@ class TimerControlBox : public QMainWindow {
     public: // These methods are commands that remote controllers used
 	    // to control the timer.
 
+	// Handle special ends, such as makeup ends, by using this
+	// method instead of the next_end_command() method.
+      int special_end_command(const QString&label_txt);
+
 	// This method sets up for the next end. If the timer is still
 	// running, it returns -1. Otherwise, it sets up the counters
 	// for the next end and returns >= 0.
