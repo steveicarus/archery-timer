@@ -32,6 +32,13 @@ just pull out the ethernet cable to disconnect from the LAN.
 This is necessary to support sound through QT, and it is apparently
 not installed by default.
 
+* Install xscreensaver
+
+This is needed to provide a way to control the screen
+saver. Paradoxically, we need to install the screen saver so that we
+can turn screen saving off. After installing xscreensaver, go into the
+root Preferences menu to disable the screen saver manually.
+
 * Install avahi client devel files: libavahi-common-dev, libavahi-core-dev, libavahi-client-dev
 
 This is necessary to support ZeroConf on the PI when building the
