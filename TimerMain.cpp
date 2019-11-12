@@ -68,23 +68,32 @@ void TimerMain::set_line_text(const class QString&txt)
 
 void TimerMain::set_time_value(int val, timer_mode_t mode)
 {
+      QString val_text;
+      val_text.setNum(val);
+	
       switch (mode) {
 	  case TIMER_CALLUP:
 	    ui->timer_text->setPalette(red_);
+		ui->timer_text->setText(val_text);
 	    break;
 	  case TIMER_END:
 	    ui->timer_text->setPalette(green_);
+		ui->timer_text->setText(val_text);
 	    break;
 	  case TIMER_END_WARN:
 	    ui->timer_text->setPalette(yellow_);
+		ui->timer_text->setText(val_text);
 	    break;
-	  case TIMER_STOP:
-	    ui->timer_text->setPalette(red_);
-	    break;
+  	  case TIMER_STOP:
+  	    ui->timer_text->setPalette(red_);
+  		ui->timer_text->setText("STOP");
+  	    break;
+      case TIMER_PREP:
+    	ui->timer_text->setPalette(red_);
+    	ui->timer_text->setText("PREP");
+    	break;
       }
-      QString val_text;
-      val_text.setNum(val);
-      ui->timer_text->setText(val_text);
+
 }
 
 bool TimerMain::toggle_fullscreen(void)

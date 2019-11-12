@@ -143,7 +143,7 @@ int TimerControlBox::next_end_command(int end_number, bool practice_flag)
 
 	// State the callup time in the timer display, and enable the
 	// GO button.
-      timer_window_->set_time_value(timer_callup_, TimerMain::TIMER_CALLUP);
+      timer_window_->set_time_value(timer_callup_, TimerMain::TIMER_PREP);
       ui->go_button->setEnabled(true);
 
 	// Return the number for the next end.
