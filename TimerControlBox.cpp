@@ -22,6 +22,7 @@
 # include  "TimerMain.h"
 # include  <QtMultimedia/QSound>
 # include  <cstdio>
+# include  <string>
 # include  <cassert>
 
 using namespace std;
@@ -203,8 +204,26 @@ int TimerControlBox::query_settings_command(QString&text)
       int callup_time = ui->callup_time_text->text().toInt();
       int end_time    = ui->end_time_text   ->text().toInt();
       int warn_time   = ui->warn_time_text  ->text().toInt();
-      text = QString::asprintf("callup-time=%d end-time=%d warn-time=%d",
-			       callup_time, end_time, warn_time);
+
+	  string line_two_enabled;
+
+	  if (ui->line_cd_check->isChecked()){
+	  	line_two_enabled = "true";
+	  } else {
+	  	line_two_enabled = "false";
+	  }
+
+	  string toggle_lines;
+	  
+	  if (ui->toggle_order_check->isChecked()){
+	  	toggle_lines = "true";
+	  } else {
+	  	toggle_lines = "false";
+	  }
+	  
+      text = QString::asprintf("callup-time=%d end-time=%d warn-time=%d line-one=%s line-two=%s line-two-enabled=%s toggle-lines=%s",
+			       callup_time, end_time, warn_time, ui->line_ab_text->text().toUtf8().constData(), ui->line_cd_text->text().toUtf8().constData(),
+				   line_two_enabled.c_str(), toggle_lines.c_str());
       return 0;
 }
 
@@ -234,6 +253,18 @@ int TimerControlBox::set_command(const QString&text)
 	    txt.setNum(val);
 	    ui->warn_time_text->setText(txt);
 
+      } else if (pair[0] == "line-one") {
+	    ui->line_ab_text->setText(pair[1]);
+		
+      } else if (pair[0] == "line-two-enabled") {
+	    ui->line_cd_check->setChecked(QVariant(pair[1]).toBool());
+		
+      } else if (pair[0] == "line-two") {
+	    ui->line_cd_text->setText(pair[1]);
+		
+      } else if (pair[0] == "toggle-lines") {
+	    ui->toggle_order_check->setChecked(QVariant(pair[1]).toBool());
+		
       }
 
       return 0;

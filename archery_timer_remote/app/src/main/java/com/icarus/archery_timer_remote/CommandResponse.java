@@ -62,7 +62,7 @@ public class CommandResponse extends AsyncTask<String, Integer, String> {
         }
 
         /* Read the response until we get a newline, or the channel fails. */
-        final int BUFSIZE = 100;
+        final int BUFSIZE = 500;
         byte[] buf = new byte[BUFSIZE];
         int ptr = 0;
         try {
