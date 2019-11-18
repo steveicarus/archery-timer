@@ -167,7 +167,16 @@ int TimerControlBox::start_timer_command(void)
       set_running_state_();
       ui->go_button->setText("PAUSE");
       timer_.start(1000);
-      sound_callup_->play();
+	  
+	  // start with phase appropriate sound
+      if (timer_callup_ >= 1) {
+		  // in callup phase, resume with callup signal
+		  sound_callup_->play();
+      } else if (timer_end_ >= 1) {
+	      // in the middle of an end, resume with start signal
+		  sound_start_->play();
+      }
+	   
       return 0;
 }
 
