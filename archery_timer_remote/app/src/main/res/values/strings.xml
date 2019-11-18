@@ -24,4 +24,8 @@
     <string name="disconnect_help">However you connected, you can use this \"disconnect\" button to disconnect again to make the gadget available to other remotes.</string>
     <string name="practice_check">Practice</string>
     <string name="makeup_end_button">Makeup End</string>
+    <string name="line_1_label">Line 1</string>
+    <string name="enable_second_line">Second Line</string>
+    <string name="toggle_lines">Alternate Lines</string>
+    <string name="emergency_stop_button">EMERGENCY STOP</string>
 </resources>

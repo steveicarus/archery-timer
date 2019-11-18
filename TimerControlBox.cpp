@@ -35,6 +35,7 @@ TimerControlBox::TimerControlBox(QWidget*parent)
       sound_callup_ = new QSound("sounds/whistle-2.wav");
       sound_start_  = new QSound("sounds/whistle-1.wav");
       sound_clear_  = new QSound("sounds/whistle-3.wav");
+	  sound_emergency_stop_  = new QSound("sounds/emergency-stop.wav");
 
       timer_callup_ = 0;
       timer_end_ = 0;
@@ -73,6 +74,7 @@ TimerControlBox::~TimerControlBox()
       delete sound_clear_;
       delete sound_start_;
       delete sound_callup_;
+	  delete sound_emergency_stop_;
       delete ui;
 }
 
@@ -167,7 +169,30 @@ int TimerControlBox::start_timer_command(void)
       set_running_state_();
       ui->go_button->setText("PAUSE");
       timer_.start(1000);
+      if (timer_callup_ >= 1) {
+		  // restore numeric value and background colour (may have been emergency stopped)
+		  timer_window_->set_time_value(timer_callup_, TimerMain::TIMER_CALLUP);
+      } else if (timer_end_ >= 1) {
+		  // restore numeric value and background colour (may have been emergency stopped)
+		  // Don't bother detecting whether we're in the 'Warning' phase: it'll fix itself in 1 second
+		  timer_window_->set_time_value(timer_end_, TimerMain::TIMER_END);
+      } 
+	  
       sound_callup_->play();
+      return 0;
+}
+
+int TimerControlBox::emergency_stop_command(void)
+{
+	  // If the timer is not running, then do nothing.
+      if (!timer_running_flag_) return -1;
+	  
+	  // play the emergency stop sound, set the display to stop
+	  timer_window_->set_time_value(0, TimerMain::TIMER_STOP);	
+	  sound_emergency_stop_->play();
+	  
+	  // pause the timer
+	  pause_timer_command();
       return 0;
 }
 

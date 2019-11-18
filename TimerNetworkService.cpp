@@ -364,6 +364,12 @@ void TimerNetworkService::process_command_(const QString&cmd)
 	    return;
       }
 
+      if (args[0] == "emergency-stop") {
+	    int rc = controls_->emergency_stop_command();
+	    connection_->write(ok_with_error_code(rc).toLatin1().data());
+	    return;
+      }
+
       if (args[0] == "toggle-fullscreen") {
 	    int rc = controls_->toggle_fullscreen_command();
 	    connection_->write(ok_with_error_code(rc).toLatin1().data());
