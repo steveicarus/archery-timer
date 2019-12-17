@@ -64,6 +64,9 @@ class TimerControlBox : public QMainWindow {
 	// Stop the timer, without advancing to the next end.
       int pause_timer_command(void);
 
+	// Emergency Stop
+	  int emergency_stop_command(void);
+
 	// Toggle fullscreen displal mode.
       int toggle_fullscreen_command(void);
 
@@ -101,6 +104,7 @@ class TimerControlBox : public QMainWindow {
       QSound*sound_callup_;
       QSound*sound_start_;
       QSound*sound_clear_;
+	  QSound*sound_emergency_stop_;
 
 	// State machine and timer for running an end.
       QTimer timer_;

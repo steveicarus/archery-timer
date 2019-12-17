@@ -141,4 +141,8 @@ public class MainActivity extends AppCompatActivity implements GetCommandRespons
         app.save_end_state(end_number.getText().toString(),
                            practice_check.isChecked() ? true : false);
     }
+
+    public void emergency_stop_button_click(View view) {
+        send_command("emergency-stop");
+    }
 }
