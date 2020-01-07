@@ -55,6 +55,33 @@ The main timer window responds to these keyboard commands:
 * Down (down arrow) - Skip button
 * Enter or Return - Start timer
 
+## Using the Android App
+
+The Archery Timer Remote app uses WiFi to connect to the timer. The
+source for the application is part of this distribution, but the
+precompiled app should also be available for download on the Google
+Play Store for free. So start by downloading the app onto your device.
+
+The intent is to run the device on a Rasperry-PI, as configured in
+README-PI.txt. Starting there, turn on the device. The WiFi network
+"Icarus Archery Gadget" should appear as a valid network. Connect to
+that network, so that your phone is on the same LAN as the device.
+
+To connect your phone to the device, start the "Archery Timer Remote"
+app, and tap the "Connect" button. In the next screen, you should see
+instructions for the next step. If all goes well, the first button you
+see will say "Icarus Archery Timer". Tap that button. The device will
+say "connected" in the upper right of the screen, and you are sent
+back to the remote control screen.
+
+If the first button says "searching..." there may be a problem with
+finding the device. Try copying the "port" number on the top right
+corner of the device screen into the "Port Number" field, then tab
+"Try to Connect".
+
+Once you are connected, you can use the app to set up the timer, set
+up an end, strart timing, etc.
+
 ## Build
 
 The program was originally implemented on Linux using QT5, but should build on
