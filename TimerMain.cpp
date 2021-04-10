@@ -141,6 +141,11 @@ void TimerMain::keyPressEvent(QKeyEvent*event)
 	    toggle_fullscreen();
 	    return;
       }
+      // Fast Forward
+      if (event->key() == Qt::Key_F) {
+	    control_box_->fast_forward_command();
+	    return;
+      }
 	// Makeup end.
       if (event->key() == Qt::Key_M) {
 	    control_box_->special_end_command("MAKEUP");
@@ -167,7 +172,12 @@ void TimerMain::keyPressEvent(QKeyEvent*event)
 	    control_box_->fast_forward_command();
 	    return;
       }
-
+      // Emergency Stop
+      if (event->key() == Qt::Key_E) {
+	    printf("KEYBOARD: Emergency Stop\n");
+	    control_box_->emergency_stop_command();
+	    return;
+      }
       printf("XXXX key() == 0x%04x\n", event->key());
       event->ignore();
 }

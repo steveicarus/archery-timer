@@ -51,9 +51,13 @@ The main timer window responds to these keyboard commands:
 
 * Space - Toggle the control box visibility
 
+* f - Fast forward button
+* m - Makeup End button
 * n - Next End button
 * Down (down arrow) - Skip button
 * Enter or Return - Start timer
+* p - Pause timer
+* e - Emergency stop
 
 ## Using the Android App
 
