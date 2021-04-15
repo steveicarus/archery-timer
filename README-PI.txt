@@ -1,8 +1,17 @@
 
 Notes for setting up a Raspberry Pi
 
-* Configure the Wi Fi to be an access point
+* Configure the WiFi to be a station (preferred)
 
+This is the default configuration for Raspbian. You presumably have installed
+the desktop version, so use the default settings to connect to your WiFi
+network.
+
+* Configure the Wi Fi to be an access point (optional)
+
+NOTE: This option can be used if you are setting the module up to work
+in an environment that does not otherwise have WiFi. In this case, set
+the module up to be the Access Point.
 The instructions to do this are here:
 https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
 
@@ -38,6 +47,10 @@ This is needed to provide a way to control the screen
 saver. Paradoxically, we need to install the screen saver so that we
 can turn screen saving off. After installing xscreensaver, go into the
 root Preferences menu to disable the screen saver manually.
+
+* Install qt5 devel tools: qtbase5-devel
+
+The archery-timer program is a qt5 program.
 
 * Install avahi client devel files: libavahi-common-dev, libavahi-core-dev, libavahi-client-dev
 
