@@ -318,6 +318,13 @@ void TimerControlBox::network_service_port(const QString&port_text)
       if (timer_window_) timer_window_->network_service_port(port_text);
 }
 
+void TimerControlBox::network_interfaces(const QStringList&if_list)
+{
+      ui->ip_interface_list->clear();
+      ui->ip_interface_list->addItems(if_list);
+      if (timer_window_) timer_window_->network_interfaces(if_list);
+}
+
 void TimerControlBox::set_running_state_(void)
 {
       timer_running_flag_ = true;

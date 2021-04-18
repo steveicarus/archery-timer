@@ -1,4 +1,4 @@
-TEMPLACE = app
+TEMPLATE = app
 TARGET = archery-timer
 
 DEFINES += QZEROCONF_STATIC

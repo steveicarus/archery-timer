@@ -20,6 +20,7 @@
 # include  "TimerNetworkService.h"
 # include  "TimerControlBox.h"
 # include  "version_tag.h"
+# include  <QNetworkInterface>
 # include  <QTcpSocket>
 # include  <cstdio>
 # include  <cassert>
@@ -167,7 +168,6 @@ TimerNetworkService::TimerNetworkService(TimerControlBox*parent)
       connect(&zero_conf_, SIGNAL(serviceUpdated(QZeroConfService)),
 	      this, SLOT(service_updated(QZeroConfService)));
 
-#if 0
       QList<QHostAddress> tmp_addresses = QNetworkInterface::allAddresses();
       QList<QHostAddress> addresses;
       for (QList<QHostAddress>::const_iterator cur = tmp_addresses.begin()
@@ -179,15 +179,20 @@ TimerNetworkService::TimerNetworkService(TimerControlBox*parent)
       }
       for (QList<QHostAddress>::const_iterator cur = addresses.begin()
 		 ; cur != addresses.end() ; ++ cur) {
+	    if (!cur->isGlobal())
+		  continue;
+	    if (cur->protocol() != QAbstractSocket::IPv4Protocol)
+		  continue;
 	    fprintf(stdout, "XXXX Host IP address: %s\n", cur->toString().toLatin1().data());
+	    if_list_.push_back(cur->toString());
       }
-#endif
 
       listen();
       fprintf(stdout, "XXXX TimerNetworkService: server port = %u\n", serverPort());
       QString port_text;
       port_text.setNum(serverPort());
       controls_->network_service_port(port_text);
+      controls_->network_interfaces(if_list_);
 
       zero_conf_.clearServiceTxtRecords();
       zero_conf_.startServicePublish("Icarus Archery Timer", "_icarus_archery_timer._tcp", "local", serverPort());
@@ -212,6 +217,7 @@ void TimerNetworkService::new_connection_signal(void)
 	    pauseAccepting();
 	    connection_ = sock;
 	    controls_->network_service_port("connected");
+	    controls_->network_interfaces(QStringList());
 	    connect(connection_, SIGNAL(readyRead()),   SLOT(ready_read()));
 	    connect(connection_, SIGNAL(disconnected()),SLOT(port_disconnected()));
 	      // Stop publishing, if connected.
@@ -253,6 +259,7 @@ void TimerNetworkService::port_disconnected(void)
       QString port_text;
       port_text.setNum(serverPort());
       controls_->network_service_port(port_text);
+      controls_->network_interfaces(if_list_);
 	// Resume publishing.
 	//zero_conf_.clearServiceTxtRecords();
 	//zero_conf_.startServicePublish("Icarus Archery Timer", "_icarus_archery_timer._tcp", "local", serverPort());

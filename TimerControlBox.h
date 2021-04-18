@@ -80,6 +80,9 @@ class TimerControlBox : public QMainWindow {
 	// be called by the TimerNetworkService instance.
       void network_service_port(const QString&port_text);
 
+      // Display the network interfaces
+      void network_interfaces(const QStringList&if_list);
+
     private slots:
       void go_button(void);
       void prev_button(void);

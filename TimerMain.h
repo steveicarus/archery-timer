@@ -54,6 +54,9 @@ class TimerMain : public QMainWindow
 	// Display the connected status
       void network_service_port(const QString&port_text);
 
+      // Display the network interfaces
+      void network_interfaces(const QStringList&if_list);
+
     protected:
       void keyPressEvent(QKeyEvent*event);
 

@@ -86,6 +86,7 @@ class TimerNetworkService : private QTcpServer {
       TimerControlBox*controls_;
       QTcpSocket*     connection_;
       QString         line_buffer_;
+      QStringList     if_list_;
 };
 
 #endif

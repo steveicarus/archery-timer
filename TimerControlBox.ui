@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>280</width>
-    <height>414</height>
+    <width>317</width>
+    <height>551</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -284,6 +284,22 @@
        </layout>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4"/>
+      </item>
+      <item>
+       <widget class="QListWidget" name="ip_interface_list">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="uniformItemSizes">
+         <bool>false</bool>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="reset_ends_button">
         <property name="text">
          <string>Reset Ends</string>
@@ -299,8 +315,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>280</width>
-     <height>31</height>
+     <width>317</width>
+     <height>39</height>
     </rect>
    </property>
   </widget>

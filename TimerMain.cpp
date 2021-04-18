@@ -124,6 +124,12 @@ void TimerMain::network_service_port(const QString&port_text)
       ui->connected_label->setText(port_text);
 }
 
+void TimerMain::network_interfaces(const QStringList&if_list)
+{
+      ui->ip_interface_list->clear();
+      ui->ip_interface_list->addItems(if_list);
+}
+
 void TimerMain::keyPressEvent(QKeyEvent*event)
 {
 
