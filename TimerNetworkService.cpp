@@ -341,7 +341,7 @@ static inline QString ok_with_error_code(int rc, const QString&text)
 
 void TimerNetworkService::process_command_(const QString&cmd)
 {
-      QStringList args = cmd.simplified().split(' ', QString::SkipEmptyParts);
+      QStringList args = cmd.simplified().split(' ', Qt::SkipEmptyParts);
       if (args.size() == 0) return;
 
       if (args[0] == "version") {
