@@ -372,7 +372,7 @@ void TimerNetworkService::process_command_(const QString&cmd)
 		  rc = controls_->next_end_command();
 
 	    } else {
-		    // Handle the generate case that the next end
+		    // Handle the general case that the next end
 		    // number and practice flag are passed in.
 		  int end_number = args[1].toInt();
 		  bool practice_flag = false;
