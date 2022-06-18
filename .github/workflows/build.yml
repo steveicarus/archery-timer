@@ -1,0 +1,48 @@
+
+name: build
+
+on:
+  # Every push onto the main branch triggers a retest.
+  push:
+    branches:
+      - master
+
+jobs:
+
+  lin:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [
+          '18.04',
+          '20.04'
+        ]
+    runs-on: ubuntu-${{ matrix.os }}
+    name: '🐧 Ubuntu ${{ matrix.os }}'
+    steps:
+
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+
+    - name: Install dependencies
+      run: |
+        sudo apt update -qq
+        sudo apt install -y make g++ git libavahi-client-dev libavahi-common-dev
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        host: 'linux'
+        modules: 'multimedia network widgets'
+
+    - name: Build Archery Timer
+      run: |
+        qmake
+        make
+
+    - name: Build Archery Timer Control
+      run: |
+        cd archery_timer_control
+        qmake
+        make
