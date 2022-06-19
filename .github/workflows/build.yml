@@ -13,10 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [
-          '18.04',
-          '20.04'
-        ]
+        os: [ '18.04', '20.04' ]
     runs-on: ubuntu-${{ matrix.os }}
     name: '🐧 Ubuntu ${{ matrix.os }}'
     steps:
@@ -46,3 +43,34 @@ jobs:
         cd archery_timer_control
         qmake
         make
+
+  mac:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ '11', '12' ]
+    runs-on: macos-${{ matrix.os }}
+    name: '🍏 macos ${{ matrix.os }}'
+    steps:
+
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        host: 'mac'
+        modules: 'multimedia network widgets'
+
+    - name: Build Archery Timer
+      run: |
+        qmake -config release
+        make
+
+    - name: Build Archery Timer Control
+      run: |
+        cd archery_timer_control
+        qmake -config release
+        make
+
