@@ -212,10 +212,17 @@ void ArcheryTimerControl::line_cd_checked(int)
 {
       QList<QString> settings_list;
 
-      if (ui->line_cd_check->isChecked())
+      if (ui->line_cd_check->isChecked()) {
+	    ui->line_cd_text->setEnabled(true);
 	    settings_list.push_back("line-two-enabled=1");
-      else
+
+	    QString txt = "line-two=" + ui->line_cd_text->text();
+	    settings_list.push_back(txt);
+
+      } else {
+	    ui->line_cd_text->setEnabled(false);
 	    settings_list.push_back("line-two-enabled=0");
+      }
 
       timer_protocol_.send_settings(settings_list);
 }
@@ -269,13 +276,24 @@ void ArcheryTimerControl::makeup_end_button_clicked(bool)
  * When we get a version string from the remote, we are finished the initial
  * connect to the server. So send a bunch of settings to the server to make
  * sure it matches the behavior we want.
+ *
+ * We also get the version_set signal again. Detect this with the special
+ * version_txt value and disable all the control buttons.
  */
 void ArcheryTimerControl::version_set(const QString&version_txt)
 {
       ui->server_version_label->setText(version_txt);
 
-      if (!timer_protocol_.is_connected())
+      if (version_txt == "-" || !timer_protocol_.is_connected()) {
+	    // When the remote disconnects, disable the control buttons.
+	    ui->pause_button->setEnabled(false);
+	    ui->run_button->setEnabled(false);
+	    ui->skip_button->setEnabled(false);
+	    ui->next_button->setEnabled(false);
+	    ui->emergency_stop_button->setEnabled(false);
+	    ui->makeup_end_button->setEnabled(false);
 	    return;
+      }
 
       QList<QString> settings_list;
       QString txt;
